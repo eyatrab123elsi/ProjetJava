@@ -4,19 +4,27 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
 public class DBConnection {
+    // Paramètres de la base de données
+    private static final String URL = "jdbc:mysql://localhost:3306/learning_platform"; // Modifie avec ton URL
+    private static final String USER = "root";  // Remplace par ton utilisateur
+    private static final String PASSWORD = ""; // Remplace par ton mot de passe
 
-    private static final String URL = "jdbc:mysql://localhost:3306/learning_platform"; // Vérifie le nom de ta base de données
-    private static final String USER = "root"; // Nom d'utilisateur MySQL (à modifier si nécessaire)
-    private static final String PASSWORD = ""; // Mot de passe MySQL (à modifier si nécessaire)
-
-    // Méthode pour obtenir la connexion
+    // Méthode pour établir la connexion à la base de données
     public static Connection getConnection() {
         try {
-            // Charger le driver MySQL si nécessaire
-            Class.forName("com.mysql.cj.jdbc.Driver"); // Pour MySQL 8+
-            // Retourner la connexion
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            // Charger le driver JDBC
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Établir la connexion
+            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            if (conn != null) {
+                System.out.println("Connexion à la base de données réussie !");
+            } else {
+                System.out.println("Échec de la connexion à la base de données.");
+            }
+            return conn;
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
             e.printStackTrace();

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml/1">
-    <Text text="Inscription" style="-fx-font-size: 20px;"/>
-    <TextField fx:id="nomField" promptText="Nom"/>
-    <TextField fx:id="emailField" promptText="Email"/>
-    <PasswordField fx:id="motDePasseField" promptText="Mot de passe"/>
-    <Button fx:id="inscrireButton" text="S'inscrire" onAction="#inscrireUtilisateur"/>
-    <Text fx:id="feedbackText" style="-fx-fill: red;"/>
-</VBox>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InscriptionController">
+    <TextField fx:id="nomField" layoutX="100" layoutY="100" />
+    <TextField fx:id="emailField" layoutX="100" layoutY="150" />
+    <PasswordField fx:id="motDePasseField" layoutX="100" layoutY="200" />
+    <Button fx:id="inscrireButton" layoutX="100" layoutY="250" text="Inscrire" onAction="#inscrireUtilisateur"/>
+    <Text fx:id="feedbackText" layoutX="100" layoutY="300"/>
+</AnchorPane>

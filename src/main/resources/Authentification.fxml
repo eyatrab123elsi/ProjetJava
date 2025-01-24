@@ -12,5 +12,6 @@
         <TextField fx:id="usernameField" promptText="Nom d'utilisateur" />
         <TextField fx:id="passwordField" promptText="Mot de passe" />
         <Button text="Se connecter" onAction="#handleLoginButtonAction" />
+        <Button text="S'inscrire" onAction="#handleRegisterButtonAction" /> <!-- Nouveau bouton -->
     </VBox>
 </AnchorPane>
