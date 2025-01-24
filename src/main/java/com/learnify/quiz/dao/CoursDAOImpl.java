@@ -28,4 +28,14 @@ public class CoursDAOImpl implements CoursDAO {
     public void deleteCourse(Long id) {
         courses.removeIf(c -> c.getId().equals(id));
     }
+
+    @Override
+    public Cours getCoursById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void saveCours(Cours cours) {
+
+    }
 }

@@ -11,4 +11,8 @@ public interface CoursDAO {
     List<Cours> getAllCourses();
     void saveCourse(Cours course);
     void deleteCourse(Long id);
+
+    Cours getCoursById(Long id);
+
+    void saveCours(Cours cours);
 }
