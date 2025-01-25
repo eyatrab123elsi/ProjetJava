@@ -9,9 +9,11 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.AuthentificationController">
     <VBox alignment="CENTER" spacing="20.0" layoutX="50.0" layoutY="50.0">
         <Label text="Page d'authentification" />
+        <Label text="Nom" layoutX="50" layoutY="100" />
         <TextField fx:id="usernameField" promptText="Nom d'utilisateur" />
+        <Label text="Mot de passe " layoutX="50" layoutY="100" />
         <TextField fx:id="passwordField" promptText="Mot de passe" />
-        <Button text="Se connecter" onAction="#handleLoginButtonAction" />
-        <Button text="S'inscrire" onAction="#handleRegisterButtonAction" /> <!-- Nouveau bouton -->
+        <Button fx:id="loginButton" text="Se connecter" onAction="#handleLoginButtonAction" />
+        <Button fx:id="registerButton" text="S'inscrire" onAction="#handleRegisterButtonAction" />
     </VBox>
 </AnchorPane>

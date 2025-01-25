@@ -5,11 +5,24 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InscriptionController">
-    <TextField fx:id="nomField" layoutX="100" layoutY="100" />
-    <TextField fx:id="emailField" layoutX="100" layoutY="150" />
-    <PasswordField fx:id="motDePasseField" layoutX="100" layoutY="200" />
-    <Button fx:id="inscrireButton" layoutX="100" layoutY="250" text="Inscrire" onAction="#inscrireUtilisateur"/>
-    <Text fx:id="feedbackText" layoutX="100" layoutY="300"/>
+    <!-- Label for Nom -->
+    <Label text="Nom" layoutX="50" layoutY="100" />
+    <TextField fx:id="nomField" layoutX="150" layoutY="100" />
+
+    <!-- Label for Email -->
+    <Label text="Email" layoutX="50" layoutY="150" />
+    <TextField fx:id="emailField" layoutX="150" layoutY="150" />
+
+    <!-- Label for Mot de passe -->
+    <Label text="Mot de passe" layoutX="50" layoutY="200" />
+    <PasswordField fx:id="motDePasseField" layoutX="150" layoutY="200" />
+
+    <!-- Button for Inscrire -->
+    <Button fx:id="inscrireButton" layoutX="150" layoutY="250" text="Inscrire" onAction="#inscrireUtilisateur" />
+
+    <!-- Feedback text -->
+    <Text fx:id="feedbackText" layoutX="150" layoutY="300" />
 </AnchorPane>

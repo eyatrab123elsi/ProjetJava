@@ -47,5 +47,5 @@ public class Utilisateur {
         this.role = role;
     }
 
-    // Getters and Setters
+
 }
