@@ -1,10 +1,10 @@
 package com.learnify.absence.service;
 
-import com.learnify.absence.model.Absence;
+import com.learnify.absence.entities.AbsenceEntity;
 import java.util.List;
 
 public interface AbsenceService {
-    void createAbsence(Absence absence);
-    List<Absence> getAllAbsences();
-    List<Absence> getAbsencesByStudentId(int studentId);
+    void createAbsence(AbsenceEntity absence);
+    List<AbsenceEntity> getAllAbsences();
+    List<AbsenceEntity> getAbsencesByStudentId(int studentId);
 }
