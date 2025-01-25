@@ -1,6 +1,6 @@
 package services;
 
-import utils.DBConnection;
+import utils.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ public class UtilisateurService {
 
     public UtilisateurService() {
         // Obtient la connexion à la base de données
-        this.conn = DBConnection.getConnection();
+        this.conn = DatabaseConnection.getConnection();
     }
 
     // Méthode pour ajouter un utilisateur

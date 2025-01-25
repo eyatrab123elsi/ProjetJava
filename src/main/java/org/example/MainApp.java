@@ -7,7 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import utils.DBConnection;
+import utils.DatabaseConnection;
 
 import java.sql.Connection;
 
@@ -17,7 +17,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         try {
             // Tester la connexion à la base de données
-            Connection conn = DBConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
             if (conn != null) {
                 // Connexion réussie
                 System.out.println("Connexion réussie à la base de données !");

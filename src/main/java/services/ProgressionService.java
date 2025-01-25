@@ -1,6 +1,6 @@
 package services;
 
-import utils.DBConnection;
+import utils.DatabaseConnection;
 
 public class ProgressionService {
     public String recupererProgressionUtilisateur(int utilisateurId) {

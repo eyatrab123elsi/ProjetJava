@@ -1,4 +1,4 @@
-package org.example;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;  // Ajoute cette ligne
