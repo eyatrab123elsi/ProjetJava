@@ -12,7 +12,8 @@ public class UtilisateurService {
     private Connection conn;
 
     public UtilisateurService() {
-        this.conn = DBConnection.getConnection();
+        // Utiliser getConn() au lieu de getConnection()
+        this.conn = DBConnection.getInstance().getConn();
     }
 
     public boolean ajouterUtilisateur(String nom, String email, String motDePasse, String role) {
@@ -44,6 +45,4 @@ public class UtilisateurService {
             return false;
         }
     }
-
-
 }
