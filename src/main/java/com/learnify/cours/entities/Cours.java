@@ -1,4 +1,4 @@
-package com.learnify.cours.model;
+package com.learnify.cours.entities;
 
 public class Cours {
     private Long id;

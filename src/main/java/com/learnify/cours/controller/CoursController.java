@@ -1,6 +1,6 @@
 package com.learnify.cours.controller;
 
-import com.learnify.cours.model.Cours;
+import com.learnify.cours.entities.Cours;
 import com.learnify.cours.service.CoursService;
 import com.learnify.cours.service.CoursServiceImpl;
 
@@ -20,6 +20,10 @@ public class CoursController {
             System.out.println("3. Supprimer un cours");
             System.out.println("4. Quitter");
             System.out.print("Choisissez une option : ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Veuillez entrer un nombre valide.");
+                scanner.next();
+            }
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline character after number input
 
@@ -32,27 +36,46 @@ public class CoursController {
                     String description = scanner.nextLine();
 
                     System.out.print("Durée du cours (en heures) : ");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Veuillez entrer une durée valide (nombre entier).");
+                        scanner.next();
+                    }
                     int duree = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character after number input
 
                     Cours newCours = new Cours(null, titre, description, duree);
-                    coursService.addCourse(newCours);
+                    coursService.addCours(newCours);
                     System.out.println("Cours ajouté avec succès !");
                     break;
 
                 case 2:
                     System.out.println("\nListe des cours :");
-                    for (Cours course : coursService.getAllCourses()) {
-                        System.out.println(course.getId() + " - " + course.getTitre() + ": " + course.getDescription() + " (Durée: " + course.getDuree() + "h)");
+                    var courses = coursService.getAllCours();
+                    if (courses.isEmpty()) {
+                        System.out.println("Aucun cours disponible.");
+                    } else {
+                        for (Cours course : courses) {
+                            System.out.println(course.getId() + " - " + course.getTitre() + ": " + course.getDescription() + " (Durée: " + course.getDuree() + "h)");
+                        }
                     }
                     break;
 
                 case 3:
                     System.out.print("ID du cours à supprimer : ");
+                    while (!scanner.hasNextLong()) {
+                        System.out.println("Veuillez entrer un ID valide.");
+                        scanner.next();
+                    }
                     Long id = scanner.nextLong();
                     scanner.nextLine(); // Consume newline character after number input
-                    coursService.removeCourse(id);
-                    System.out.println("Cours supprimé avec succès !");
+
+                    Cours coursToDelete = coursService.getCoursById(id);
+                    if (coursToDelete != null) {
+                        coursService.deleteCours(id);
+                        System.out.println("Cours supprimé avec succès !");
+                    } else {
+                        System.out.println("Aucun cours trouvé avec l'ID : " + id);
+                    }
                     break;
 
                 case 4:

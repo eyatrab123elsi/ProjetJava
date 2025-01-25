@@ -1,12 +1,12 @@
 package com.learnify.cours.service;
 
-import com.learnify.cours.model.Cours;
+import com.learnify.cours.entities.Cours;
 
 import java.util.List;
 
 public interface CoursService {
-    Cours getCourseById(Long id);
-    List<Cours> getAllCourses();
-    void addCourse(Cours cours);
-    void removeCourse(Long id);
+    Cours getCoursById(Long id);
+    List<Cours> getAllCours();
+    void addCours(Cours cours);
+    void deleteCours(Long id);
 }
