@@ -1,6 +1,6 @@
-package com.learnify.quiz.service;
+package com.learnify.cours.service;
 
-import com.learnify.quiz.model.Cours;
+import com.learnify.cours.model.Cours;
 
 import java.util.List;
 

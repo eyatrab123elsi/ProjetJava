@@ -1,13 +1,13 @@
-package com.learnify.quiz.controller;
+package com.learnify.cours.controller;
 
-import com.learnify.quiz.model.Cours;
-import com.learnify.quiz.service.CoursService;
-import com.learnify.quiz.service.CoursServiceImpl;
+import com.learnify.cours.model.Cours;
+import com.learnify.cours.service.CoursService;
+import com.learnify.cours.service.CoursServiceImpl;
 
 import java.util.Scanner;
 
 public class CoursController {
-    private CoursService coursService = new CoursServiceImpl();
+    private final CoursService coursService = new CoursServiceImpl();
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -21,31 +21,38 @@ public class CoursController {
             System.out.println("4. Quitter");
             System.out.print("Choisissez une option : ");
             choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character after number input
 
             switch (choice) {
                 case 1:
                     System.out.print("Titre du cours : ");
-                    String title = scanner.next();
-                    System.out.print("Description du cours : ");
-                    String description = scanner.next();
+                    String titre = scanner.nextLine();
 
-                    Cours newCours = new Cours(null, title, description);
+                    System.out.print("Description du cours : ");
+                    String description = scanner.nextLine();
+
+                    System.out.print("Durée du cours (en heures) : ");
+                    int duree = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character after number input
+
+                    Cours newCours = new Cours(null, titre, description, duree);
                     coursService.addCourse(newCours);
-                    System.out.println("Cours ajouté !");
+                    System.out.println("Cours ajouté avec succès !");
                     break;
 
                 case 2:
                     System.out.println("\nListe des cours :");
                     for (Cours course : coursService.getAllCourses()) {
-                        System.out.println(course.getId() + " - " + course.getTitle() + ": " + course.getDescription());
+                        System.out.println(course.getId() + " - " + course.getTitre() + ": " + course.getDescription() + " (Durée: " + course.getDuree() + "h)");
                     }
                     break;
 
                 case 3:
                     System.out.print("ID du cours à supprimer : ");
-                    Long id = (Long) scanner.nextLong();
+                    Long id = scanner.nextLong();
+                    scanner.nextLine(); // Consume newline character after number input
                     coursService.removeCourse(id);
-                    System.out.println("Cours supprimé !");
+                    System.out.println("Cours supprimé avec succès !");
                     break;
 
                 case 4:
@@ -53,7 +60,7 @@ public class CoursController {
                     break;
 
                 default:
-                    System.out.println("Option invalide.");
+                    System.out.println("Option invalide. Veuillez réessayer.");
             }
         } while (choice != 4);
 

@@ -1,6 +1,6 @@
 package com.learnify.quiz;
 
-import com.learnify.quiz.controller.CoursController;
+import com.learnify.cours.controller.CoursController;
 import com.learnify.quiz.controller.CreateQuestionController;
 
 public class Main {
