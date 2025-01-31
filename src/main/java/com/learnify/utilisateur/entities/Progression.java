@@ -1,4 +1,4 @@
-package entities;
+package com.learnify.utilisateur.entities;
 
 public class Progression {
     private int id;

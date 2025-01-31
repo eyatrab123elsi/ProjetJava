@@ -7,7 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import utils.DBConnection;
+import com.learnify.utilisateur.utils.DBConnection;
 
 import java.sql.Connection;
 

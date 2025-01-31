@@ -1,4 +1,4 @@
-package utils;
+package com.learnify.utilisateur.utils;
 
 import java.sql.*;
 

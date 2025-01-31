@@ -1,6 +1,4 @@
-package Utils;
-
-import utils.DBConnection;
+package com.learnify.utilisateur.utils;
 
 import java.sql.Connection;
 

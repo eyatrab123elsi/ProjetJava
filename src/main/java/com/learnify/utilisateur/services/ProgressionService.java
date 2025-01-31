@@ -1,6 +1,4 @@
-package services;
-
-import utils.DBConnection;
+package com.learnify.utilisateur.services;
 
 public class ProgressionService {
     public String recupererProgressionUtilisateur(int utilisateurId) {

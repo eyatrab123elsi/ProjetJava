@@ -1,4 +1,4 @@
-package controllers;
+package com.learnify.utilisateur.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

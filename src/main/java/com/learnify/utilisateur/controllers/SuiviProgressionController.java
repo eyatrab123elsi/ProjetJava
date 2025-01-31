@@ -1,8 +1,8 @@
-package controllers;
+package com.learnify.utilisateur.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import services.ProgressionService;
+import com.learnify.utilisateur.services.ProgressionService;
 
 
 public class SuiviProgressionController {
