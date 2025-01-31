@@ -1,13 +1,13 @@
 package com.learnify.cours.entities;
 
 public class Cours {
-    private Long id;
+    private Long course_id;
     private String titre;
     private String description;
     private int duree;
 
-    public Cours(Long id, String titre, String description, int duree) {
-        this.id = id;
+    public Cours(Long course_id, String titre, String description, int duree) {
+        this.course_id =course_id;
         this.titre = titre;
         this.description = description;
         this.duree = duree;
@@ -15,11 +15,11 @@ public class Cours {
 
 
     public Long getId() {
-        return id;
+        return course_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.course_id = course_id;
     }
 
     public String getTitre() {
