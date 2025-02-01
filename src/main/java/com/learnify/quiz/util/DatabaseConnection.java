@@ -1,37 +1,23 @@
 package com.learnify.quiz.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/learning_platform?useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    static { 
-        try (Connection connection = getConnection()) { //Connect to database
+    static {
+        try (Connection connection = getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet tables = metaData.getTables(null, null, "quiz", new String[]{"TABLE"});
-            if (!tables.next()) { //check if quiz table exists 
-                System.out.println("Quiz table not found, creating it...");
-                createQuizTable(connection);
-            } else {
-                System.out.println("Quiz table found.");
-            }
 
-            tables = metaData.getTables(null, null, "question", new String[]{"TABLE"});
-            if (!tables.next()) { //check if question table exists
-                System.out.println("Question table not found, creating it...");
-                createQuestionTable(connection);
-            } else {
-                System.out.println("Question table found.");
-            }
+            // Check and create tables
+            checkAndCreateTable(metaData, connection, "quiz", createQuizTableSQL());
+            checkAndCreateTable(metaData, connection, "question", createQuestionTableSQL());
+            checkAndCreateTable(metaData, connection, "user", createUserTableSQL());
+            checkAndCreateTable(metaData, connection, "result", createResultTableSQL());
 
-        } catch (SQLException e) { //ken fama error
+        } catch (SQLException e) {
             System.err.println("Error during database table check/creation: " + e.getMessage());
             e.printStackTrace();
         }
@@ -41,34 +27,60 @@ public class DatabaseConnection {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    //function for creating quiz table in case he dosnt exists 
-    private static void createQuizTable(Connection connection) throws SQLException { 
-        String createTableSQL = "CREATE TABLE quiz (\n" +
-                                "    quiz_id INT AUTO_INCREMENT PRIMARY KEY,\n" +
-                                "    quiz_title VARCHAR(255) NOT NULL\n" +
-                                ");";
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(createTableSQL);
-            System.out.println("Quiz table created successfully.");
+    private static void checkAndCreateTable(DatabaseMetaData metaData, Connection connection, String tableName, String createTableSQL) throws SQLException {
+        ResultSet tables = metaData.getTables(null, null, tableName, new String[]{"TABLE"});
+        if (!tables.next()) {
+            System.out.println(tableName + " table not found, creating it...");
+            createTable(connection, createTableSQL);
+        } else {
+            System.out.println(tableName + " table found.");
         }
     }
 
-    //kif quiz
-    private static void createQuestionTable(Connection connection) throws SQLException {
-        String createTableSQL = "CREATE TABLE question (\n" +
-                                "    question_id INT AUTO_INCREMENT PRIMARY KEY,\n" +
-                                "    quiz_id INT,\n" +
-                                "    question_text TEXT NOT NULL,\n" +
-                                "    option_a VARCHAR(255),\n" +
-                                "    option_b VARCHAR(255),\n" +
-                                "    option_c VARCHAR(255),\n" +
-                                "    option_d VARCHAR(255),\n" +
-                                "    correct_answer_index INT NOT NULL,\n" +
-                                "    FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) ON DELETE CASCADE\n" +
-                                ");";
+    private static void createTable(Connection connection, String createTableSQL) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTableSQL);
-            System.out.println("Question table created successfully.");
+            System.out.println("Table created successfully.");
         }
+    }
+    // SQL for the tables
+    private static String createQuizTableSQL() {
+        return "CREATE TABLE quiz (" +
+                "quiz_id INT AUTO_INCREMENT PRIMARY KEY," +
+                "quiz_title VARCHAR(255) NOT NULL" +
+                ")";
+    }
+
+    private static String createQuestionTableSQL() {
+        return "CREATE TABLE question (" +
+                "question_id INT AUTO_INCREMENT PRIMARY KEY," +
+                "quiz_id INT," +
+                "question_text TEXT NOT NULL," +
+                "option_a VARCHAR(255)," +
+                "option_b VARCHAR(255)," +
+                "option_c VARCHAR(255)," +
+                "option_d VARCHAR(255)," +
+                "correct_answer_index INT NOT NULL," +
+                "FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) ON DELETE CASCADE" +
+                ")";
+    }
+
+    private static String createUserTableSQL() {
+        return "CREATE TABLE user (" +
+                "user_id INT AUTO_INCREMENT PRIMARY KEY," +
+                "username VARCHAR(255) NOT NULL," +
+                "user_type VARCHAR(50) NOT NULL" +
+                ")";
+    }
+
+    private static String createResultTableSQL() {
+        return "CREATE TABLE result (" +
+                "result_id INT AUTO_INCREMENT PRIMARY KEY," +
+                "user_id INT," +
+                "quiz_id INT," +
+                "score INT NOT NULL," +
+                 "FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE," +
+                 "FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) ON DELETE CASCADE" +
+                ")";
     }
 }
