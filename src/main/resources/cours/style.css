@@ -1,0 +1,116 @@
+/* Body Background Color */
+.root {
+    -fx-background-color: #f0f8ff; /* Light Blue */
+}
+
+/* Style du titre */
+.title-label {
+    -fx-text-fill: #2c3e50; /* Dark Blue */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+/* Style des champs de texte */
+.input-field {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #3498db;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-effect: innershadow(gaussian, #3498db, 5, 0, 0, 0);
+}
+
+.input-field:focused {
+    -fx-border-color: #1abc9c;
+    -fx-effect: innershadow(gaussian, #1abc9c, 5, 0, 0, 0);
+}
+
+/* Style des boutons */
+.action-button {
+    -fx-background-color: linear-gradient(to right, #3498db, #2980b9); /* Gradient from blue to darker blue */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 5);
+    -fx-transition: background-color 0.3s ease-in-out;
+}
+
+.action-button:hover {
+    -fx-background-color: #1abc9c; /* Hover effect with a soft green */
+}
+
+/* Bouton de suppression en rouge */
+.delete-button {
+    -fx-background-color: linear-gradient(to right, #e74c3c, #c0392b); /* Red gradient */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 5);
+    -fx-transition: background-color 0.3s ease-in-out;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Dark red on hover */
+}
+
+/* Style de la table */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dddddd;
+    -fx-border-radius: 10;
+    -fx-padding: 10px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.table-view .cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+.table-view .cell:filled {
+    -fx-background-color: #f7f9fb;
+}
+
+/* Style de survol de la table */
+.table-view .cell:hover {
+    -fx-background-color: #ecf0f1; /* Light gray on hover */
+}
+
+.table-view .column-header {
+    -fx-background-color: #3498db; /* Blue for header */
+    -fx-text-fill: white;
+}
+
+/* TextField Styles */
+.text-field {
+    -fx-background-color: #f7f9fb;
+    -fx-border-radius: 15;
+    -fx-border-color: #7f8c8d;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused {
+    -fx-border-color: #3498db;
+}
+
+/* Button container styling */
+.button-container {
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+}

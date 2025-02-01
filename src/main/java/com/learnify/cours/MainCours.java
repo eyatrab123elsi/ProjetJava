@@ -6,20 +6,38 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Objects;
+import java.net.URL;
 
 public class MainCours extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/cours.fxml")));
-        Scene scene = new Scene(root);
+    public void start(Stage primaryStage) {
+        try {
+
+            URL fxmlLocation = getClass().getClassLoader().getResource("cours/AddCourse.fxml");
+            if (fxmlLocation == null) {
+                throw new IllegalArgumentException("FXML file not found: AddCourse.fxml");
+            }
+            Parent root = FXMLLoader.load(fxmlLocation);
 
 
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
+            Scene scene = new Scene(root);
 
-        primaryStage.setTitle("Gestion des Cours");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
+            URL cssLocation = getClass().getClassLoader().getResource("cours/style.css");
+            if (cssLocation != null) {
+                scene.getStylesheets().add(cssLocation.toExternalForm());
+            } else {
+                System.err.println("⚠ Warning: CSS file not found");
+            }
+
+
+            primaryStage.setTitle("Gestion des Cours");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
