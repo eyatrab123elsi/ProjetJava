@@ -23,7 +23,7 @@
                 <TableColumn fx:id="adresseColumn" text="Adresse" prefWidth="200"/> <!-- Nouvelle colonne pour l'adresse -->
                 <TableColumn fx:id="dateNaissanceColumn" text="Date de naissance" prefWidth="150"/> <!-- Nouvelle colonne pour la date de naissance -->
                 <TableColumn fx:id="roleColumn" text="Rôle" prefWidth="100"/>
-                <TableColumn fx:id="motDePasseColumn" text="Mot de passe" prefWidth="150"/> <!-- Nouvelle colonne pour le mot de passe -->
+
                 <TableColumn fx:id="editColumn" text="Editer" prefWidth="100"/>
                 <TableColumn fx:id="deleteColumn" text="Supprimer" prefWidth="100"/>
             </columns>
@@ -39,7 +39,7 @@
                 <TableColumn fx:id="adresseColumnStudent" text="Adresse" prefWidth="200"/> <!-- Nouvelle colonne pour l'adresse -->
                 <TableColumn fx:id="dateNaissanceColumnStudent" text="Date de naissance" prefWidth="150"/> <!-- Nouvelle colonne pour la date de naissance -->
                 <TableColumn fx:id="roleColumnStudent" text="Rôle" prefWidth="100"/>
-                <TableColumn fx:id="motDePasseColumnStudent" text="Mot de passe" prefWidth="150"/> <!-- Nouvelle colonne pour le mot de passe -->
+
                 <TableColumn fx:id="editColumnStudent" text="Editer" prefWidth="100"/>
                 <TableColumn fx:id="deleteColumnStudent" text="Supprimer" prefWidth="100"/>
             </columns>
@@ -55,7 +55,7 @@
                 <TableColumn fx:id="adresseColumnPending" text="Adresse" prefWidth="200"/> <!-- Nouvelle colonne pour l'adresse -->
                 <TableColumn fx:id="dateNaissanceColumnPending" text="Date de naissance" prefWidth="150"/> <!-- Nouvelle colonne pour la date de naissance -->
                 <TableColumn fx:id="roleColumnPending" text="Rôle" prefWidth="100"/>
-                <TableColumn fx:id="motDePasseColumnPending" text="Mot de passe" prefWidth="150"/> <!-- Nouvelle colonne pour le mot de passe -->
+
                 <TableColumn fx:id="validateColumn" text="Valider" prefWidth="75"/>
                 <TableColumn fx:id="rejectColumn" text="Refuser" prefWidth="75"/>
             </columns>

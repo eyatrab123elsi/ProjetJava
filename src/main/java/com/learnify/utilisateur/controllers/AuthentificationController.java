@@ -1,5 +1,6 @@
 package com.learnify.utilisateur.controllers;
 
+import com.learnify.utilisateur.entities.Utilisateur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -75,24 +76,28 @@ public class AuthentificationController {
 
     private void redirectToUserPage(String role) {
         try {
-            String fxmlFile = "/UserPage.fxml"; // Remplacez par le fichier FXML approprié
-            if (role.equals("Étudiant")) {
-                fxmlFile = "/StudentPage.fxml";
-            } else if (role.equals("Enseignant")) {
-                fxmlFile = "/TeacherPage.fxml";
-            }
+            // Récupérer l'utilisateur authentifié à partir du service
+            UtilisateurService utilisateurService = new UtilisateurService();
+            Utilisateur utilisateur = utilisateurService.getUtilisateurByEmail(usernameField.getText()); // Utilisez la méthode pour récupérer l'utilisateur par email
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            // Charger la page de profil et obtenir le contrôleur
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfilPage.fxml"));
             AnchorPane root = loader.load();
-            Scene scene = new Scene(root);
+            ProfilController profilController = loader.getController();
 
+            // Passer l'utilisateur au contrôleur de la page de profil
+            profilController.setUtilisateur(utilisateur);
+
+            // Créer la scène et changer de fenêtre
+            Scene scene = new Scene(root);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Page de " + role);
+            stage.setTitle("Profil de " + role);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);

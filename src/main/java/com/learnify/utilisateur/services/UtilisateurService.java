@@ -2,8 +2,15 @@ package com.learnify.utilisateur.services;
 
 import com.learnify.utilisateur.entities.Utilisateur;
 import com.learnify.utilisateur.utils.DBConnection;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,6 +144,7 @@ public class UtilisateurService {
         }
     }
 
+
     // Méthode pour récupérer les utilisateurs en attente de validation
     public List<Utilisateur> getUtilisateursNonValides() {
         String query = "SELECT * FROM utilisateurs WHERE est_valide = FALSE";
@@ -154,4 +162,33 @@ public class UtilisateurService {
         }
         return utilisateurs;
     }
+    public Utilisateur getUtilisateurByEmail(String email) {
+        String query = "SELECT * FROM utilisateurs WHERE email = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String telephone = rs.getString("telephone");
+                String adresse = rs.getString("adresse");
+                String role = rs.getString("role");
+                String dateNaissanceString = rs.getString("date_naissance");
+
+                // Convertir la date de naissance (String) en LocalDate
+                LocalDate dateNaissance = null;
+                if (dateNaissanceString != null && !dateNaissanceString.isEmpty()) {
+                    dateNaissance = LocalDate.parse(dateNaissanceString, DateTimeFormatter.ISO_DATE);
+                }
+
+                // Créer un objet Utilisateur en utilisant le constructeur approprié
+                return new Utilisateur(nom, prenom, email, telephone, adresse, dateNaissance, "", role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Si l'utilisateur n'est pas trouvé
+    }
+
+
 }
