@@ -1,0 +1,60 @@
+.root {
+    -fx-background-color: #f4f4f4;
+    -fx-font-family: "Arial";
+}
+
+.label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #333;
+}
+
+.text-field, .date-picker {
+    -fx-padding: 8px;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.button {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);
+}
+
+.button:hover {
+    -fx-background-color: #005A9E;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 3, 3);
+}
+
+/* Style for table column headers */
+
+.table-view .column-header {
+    -fx-background-color: #333; /* Dark gray background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 6px; /* Smaller font size */
+
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Style du titre */
+.hbox {
+    -fx-alignment: center;
+}
+
+.label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0078D7;
+}
