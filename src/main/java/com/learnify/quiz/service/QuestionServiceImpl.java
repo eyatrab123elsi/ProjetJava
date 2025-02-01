@@ -18,4 +18,12 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> getAllQuestions() {
         return questionDao.getAllQuestions();
     }
+    @Override
+    public void updateQuestion(Question question) {
+        questionDao.updateQuestion(question);
+    }
+    @Override
+    public void deleteQuestion(int questionId) {
+        questionDao.deleteQuestion(questionId);
+    }
 }

@@ -35,4 +35,9 @@ public class Question {
 
     public int getCorrectAnswerIndex() { return correctAnswerIndex; }
     public void setCorrectAnswerIndex(int correctAnswerIndex) { this.correctAnswerIndex = correctAnswerIndex; }
+    
+    @Override
+    public String toString() {
+        return questionText;
+    }
 }

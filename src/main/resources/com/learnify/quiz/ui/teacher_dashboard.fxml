@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.quiz.controller.TeacherQuizController">
+   <left>
+      <VBox prefWidth="200.0" spacing="10.0" style="-fx-background-color: #f0f0f0;" BorderPane.alignment="CENTER">
+         <children>
+              <Button mnemonicParsing="false" onAction="#handleCreateQuestion" text="Create Question" styleClass="button">
+                <VBox.margin>
+                   <Insets left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+              </Button>
+              <Button mnemonicParsing="false" onAction="#handleEditQuestion" text="Edit Question" styleClass="button">
+                <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+             </Button>
+              <Button mnemonicParsing="false" onAction="#handleDeleteQuestion" text="Delete Question" styleClass="button">
+                  <VBox.margin>
+                      <Insets left="10.0" right="10.0" />
+                  </VBox.margin>
+              </Button>
+              <Button mnemonicParsing="false" onAction="#handleQuizList" text="Quiz List" styleClass="button">
+                  <VBox.margin>
+                    <Insets left="10.0" right="10.0" />
+                  </VBox.margin>
+              </Button>
+         </children>
+         <padding>
+             <Insets bottom="20.0" top="20.0"/>
+         </padding>
+      </VBox>
+   </left>
+</BorderPane>
