@@ -9,6 +9,6 @@ public class Main {
         controller.saveQuestion("What is Java?", "Language", "Animal", "Drink", "Car", 1); //example question
         controller.saveQuestion("What is Spring?", "Framework", "Season", "Mattress", "Color", 0); //another example
         CoursController controller1 = new CoursController();
-        controller1.run();
+
     }
 }

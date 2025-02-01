@@ -7,7 +7,7 @@ public class DatabaseConnection {
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    // Vérification et création de la table "courses"
+
     static {
         try (Connection connection = getConnection()) {
             if (!isTableExists(connection, "courses")) {
@@ -22,19 +22,19 @@ public class DatabaseConnection {
         }
     }
 
-    // Méthode pour obtenir une connexion à la DB
+
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Vérifie si une table existe
+
     private static boolean isTableExists(Connection connection, String tableName) throws SQLException {
         try (ResultSet tables = connection.getMetaData().getTables(null, null, tableName, new String[]{"TABLE"})) {
             return tables.next();
         }
     }
 
-    // Création de la table "courses"
+
     private static void createCoursesTable(Connection connection) throws SQLException {
         String createTableSQL = "CREATE TABLE courses (" +
                 "course_id INT AUTO_INCREMENT PRIMARY KEY, " +

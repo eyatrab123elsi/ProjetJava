@@ -11,7 +11,7 @@ public class CoursServiceImpl implements CoursService {
 
     @Override
     public Cours getCoursById(Long id) {
-        String query = "SELECT * FROM cours WHERE id = ?";
+        String query = "SELECT * FROM courses WHERE course_id = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -20,7 +20,7 @@ public class CoursServiceImpl implements CoursService {
 
             if (resultSet.next()) {
                 return new Cours(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("course_id"),
                         resultSet.getString("titre"),
                         resultSet.getString("description"),
                         resultSet.getInt("duree")
@@ -35,7 +35,7 @@ public class CoursServiceImpl implements CoursService {
 
     @Override
     public List<Cours> getAllCours() {
-        String query = "SELECT * FROM cours";
+        String query = "SELECT * FROM courses";
         List<Cours> courses = new ArrayList<>();
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -44,7 +44,7 @@ public class CoursServiceImpl implements CoursService {
 
             while (resultSet.next()) {
                 courses.add(new Cours(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("course_id"),
                         resultSet.getString("titre"),
                         resultSet.getString("description"),
                         resultSet.getInt("duree")
@@ -60,7 +60,7 @@ public class CoursServiceImpl implements CoursService {
 
     @Override
     public void addCours(Cours cours) {
-        String query = "INSERT INTO cours (titre, description, duree) VALUES (?, ?, ?)";
+        String query = "INSERT INTO courses (titre, description, duree) VALUES (?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -78,13 +78,13 @@ public class CoursServiceImpl implements CoursService {
     }
 
     @Override
-    public void deleteCours(Long id) {
-        String query = "DELETE FROM cours WHERE id = ?";
+    public void deleteCours(Long course_id) {
+        String query = "DELETE FROM courses WHERE course_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setLong(1, id);
+            statement.setLong(1, course_id);
             statement.executeUpdate();
 
             System.out.println("Course deleted successfully!");

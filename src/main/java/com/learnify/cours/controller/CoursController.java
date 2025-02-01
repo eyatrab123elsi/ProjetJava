@@ -1,92 +1,84 @@
 package com.learnify.cours.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import com.learnify.cours.entities.Cours;
 import com.learnify.cours.service.CoursService;
 import com.learnify.cours.service.CoursServiceImpl;
 
-import java.util.Scanner;
-
 public class CoursController {
+
     private final CoursService coursService = new CoursServiceImpl();
+    private final ObservableList<Cours> coursList = FXCollections.observableArrayList();
 
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-        int choice;
+    @FXML
+    private TextField titreField, descriptionField, dureeField;
 
-        do {
-            System.out.println("\n=== Gestion des Cours ===");
-            System.out.println("1. Ajouter un cours");
-            System.out.println("2. Afficher tous les cours");
-            System.out.println("3. Supprimer un cours");
-            System.out.println("4. Quitter");
-            System.out.print("Choisissez une option : ");
-            while (!scanner.hasNextInt()) {
-                System.out.println("Veuillez entrer un nombre valide.");
-                scanner.next();
-            }
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character after number input
+    @FXML
+    private TableView<Cours> coursTable;
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Titre du cours : ");
-                    String titre = scanner.nextLine();
+    @FXML
+    private TableColumn<Cours, Long> colId;
 
-                    System.out.print("Description du cours : ");
-                    String description = scanner.nextLine();
+    @FXML
+    private TableColumn<Cours, String> colTitre, colDescription;
 
-                    System.out.print("Durée du cours (en heures) : ");
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Veuillez entrer une durée valide (nombre entier).");
-                        scanner.next();
-                    }
-                    int duree = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline character after number input
+    @FXML
+    private TableColumn<Cours, Integer> colDuree;
 
-                    Cours newCours = new Cours(null, titre, description, duree);
-                    coursService.addCours(newCours);
-                    System.out.println("Cours ajouté avec succès !");
-                    break;
+    @FXML
+    public void initialize() {
 
-                case 2:
-                    System.out.println("\nListe des cours :");
-                    var courses = coursService.getAllCours();
-                    if (courses.isEmpty()) {
-                        System.out.println("Aucun cours disponible.");
-                    } else {
-                        for (Cours course : courses) {
-                            System.out.println(course.getId() + " - " + course.getTitre() + ": " + course.getDescription() + " (Durée: " + course.getDuree() + "h)");
-                        }
-                    }
-                    break;
+        coursTable.setItems(coursList);
+        afficherCours();
+    }
 
-                case 3:
-                    System.out.print("ID du cours à supprimer : ");
-                    while (!scanner.hasNextLong()) {
-                        System.out.println("Veuillez entrer un ID valide.");
-                        scanner.next();
-                    }
-                    Long id = scanner.nextLong();
-                    scanner.nextLine(); // Consume newline character after number input
+    @FXML
+    private void ajouterCours() {
+        String titre = titreField.getText();
+        String description = descriptionField.getText();
+        int duree;
 
-                    Cours coursToDelete = coursService.getCoursById(id);
-                    if (coursToDelete != null) {
-                        coursService.deleteCours(id);
-                        System.out.println("Cours supprimé avec succès !");
-                    } else {
-                        System.out.println("Aucun cours trouvé avec l'ID : " + id);
-                    }
-                    break;
+        try {
+            duree = Integer.parseInt(dureeField.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "Durée invalide, veuillez entrer un nombre entier !");
+            return;
+        }
 
-                case 4:
-                    System.out.println("Au revoir !");
-                    break;
+        Cours newCours = new Cours(null, titre, description, duree);
+        coursService.addCours(newCours);
+        coursList.add(newCours);
 
-                default:
-                    System.out.println("Option invalide. Veuillez réessayer.");
-            }
-        } while (choice != 4);
 
-        scanner.close();
+        titreField.clear();
+        descriptionField.clear();
+        dureeField.clear();
+    }
+
+    @FXML
+    private void afficherCours() {
+        coursList.setAll(coursService.getAllCours());
+    }
+
+    @FXML
+    private void supprimerCours() {
+        Cours selectedCours = coursTable.getSelectionModel().getSelectedItem();
+        if (selectedCours != null) {
+            coursService.deleteCours(selectedCours.getId());
+            coursList.remove(selectedCours);
+        } else {
+            showAlert("Aucun cours sélectionné", "Veuillez sélectionner un cours à supprimer.");
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
