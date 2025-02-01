@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.AuthentificationController">
+    <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" spacing="20.0">
+        <Label text="Page d'authentification" />
+        <Label layoutX="50" layoutY="100" text="Email" />
+        <TextField fx:id="usernameField" promptText="Nom d'utilisateur">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </TextField>
+        <Label layoutX="50" layoutY="100" text="Mot de passe " />
+        <TextField fx:id="passwordField" promptText="Mot de passe">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </TextField>
+        <Button fx:id="loginButton" onAction="#handleLoginButtonAction" text="Se connecter" textFill="#2652c7" />
+
+        <Button fx:id="registerButton" onAction="#handleRegisterButtonAction" text="S'inscrire" textFill="#1d22b4" />
+        <Button fx:id="forgotPasswordButton" onAction="#handleForgotPasswordButtonAction" text="Mot de passe oublié ?" textFill="#1d22b4" />
+    </VBox>
+</AnchorPane>

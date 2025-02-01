@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.AdminPage">
+    <children>
+        <Label fx:id="welcomeLabel" text="Bienvenue" layoutX="10" layoutY="10"/>
+
+        <!-- ComboBox pour filtrer les rôles -->
+        <ComboBox fx:id="filterRoleComboBox" layoutX="10" layoutY="50"/>
+
+        <!-- Table des enseignants -->
+        <TableView fx:id="teachersTable" layoutX="10" layoutY="100" prefWidth="600">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="150"/> <!-- Nouvelle colonne pour le prénom -->
+                <TableColumn fx:id="emailColumn" text="Email" prefWidth="150"/>
+                <TableColumn fx:id="telephoneColumn" text="Téléphone" prefWidth="100"/> <!-- Nouvelle colonne pour le téléphone -->
+                <TableColumn fx:id="adresseColumn" text="Adresse" prefWidth="200"/> <!-- Nouvelle colonne pour l'adresse -->
+                <TableColumn fx:id="dateNaissanceColumn" text="Date de naissance" prefWidth="150"/> <!-- Nouvelle colonne pour la date de naissance -->
+                <TableColumn fx:id="roleColumn" text="Rôle" prefWidth="100"/>
+
+                <TableColumn fx:id="editColumn" text="Editer" prefWidth="100"/>
+                <TableColumn fx:id="deleteColumn" text="Supprimer" prefWidth="100"/>
+            </columns>
+        </TableView>
+
+        <!-- Table des étudiants -->
+        <TableView fx:id="studentsTable" layoutX="10" layoutY="300" prefWidth="600">
+            <columns>
+                <TableColumn fx:id="nameColumnStudent" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="prenomColumnStudent" text="Prénom" prefWidth="150"/> <!-- Nouvelle colonne pour le prénom -->
+                <TableColumn fx:id="emailColumnStudent" text="Email" prefWidth="150"/>
+                <TableColumn fx:id="telephoneColumnStudent" text="Téléphone" prefWidth="100"/> <!-- Nouvelle colonne pour le téléphone -->
+                <TableColumn fx:id="adresseColumnStudent" text="Adresse" prefWidth="200"/> <!-- Nouvelle colonne pour l'adresse -->
+                <TableColumn fx:id="dateNaissanceColumnStudent" text="Date de naissance" prefWidth="150"/> <!-- Nouvelle colonne pour la date de naissance -->
+                <TableColumn fx:id="roleColumnStudent" text="Rôle" prefWidth="100"/>
+
+                <TableColumn fx:id="editColumnStudent" text="Editer" prefWidth="100"/>
+                <TableColumn fx:id="deleteColumnStudent" text="Supprimer" prefWidth="100"/>
+            </columns>
+        </TableView>
+
+        <!-- Table des utilisateurs en attente de validation -->
+        <TableView fx:id="pendingValidationTable" layoutX="10" layoutY="500" prefWidth="600">
+            <columns>
+                <TableColumn fx:id="nameColumnPending" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="prenomColumnPending" text="Prénom" prefWidth="150"/> <!-- Nouvelle colonne pour le prénom -->
+                <TableColumn fx:id="emailColumnPending" text="Email" prefWidth="200"/>
+                <TableColumn fx:id="telephoneColumnPending" text="Téléphone" prefWidth="100"/> <!-- Nouvelle colonne pour le téléphone -->
+                <TableColumn fx:id="adresseColumnPending" text="Adresse" prefWidth="200"/> <!-- Nouvelle colonne pour l'adresse -->
+                <TableColumn fx:id="dateNaissanceColumnPending" text="Date de naissance" prefWidth="150"/> <!-- Nouvelle colonne pour la date de naissance -->
+                <TableColumn fx:id="roleColumnPending" text="Rôle" prefWidth="100"/>
+
+                <TableColumn fx:id="validateColumn" text="Valider" prefWidth="75"/>
+                <TableColumn fx:id="rejectColumn" text="Refuser" prefWidth="75"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

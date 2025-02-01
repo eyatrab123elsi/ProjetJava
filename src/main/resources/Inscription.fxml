@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.collections.FXCollections?>
+
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.InscriptionController">
+    <Label text="Nom" layoutX="50" layoutY="50" />
+    <TextField fx:id="nomField" layoutX="150" layoutY="50" />
+
+    <Label text="Prénom" layoutX="50" layoutY="90" />
+    <TextField fx:id="prenomField" layoutX="150" layoutY="90" />
+
+    <Label text="Email" layoutX="50" layoutY="130" />
+    <TextField fx:id="emailField" layoutX="150" layoutY="130" />
+
+    <Label text="Téléphone" layoutX="50" layoutY="170" />
+    <TextField fx:id="telephoneField" layoutX="150" layoutY="170" />
+
+    <Label text="Adresse" layoutX="50" layoutY="210" />
+    <TextField fx:id="adresseField" layoutX="150" layoutY="210" />
+
+    <Label text="Date de naissance" layoutX="50" layoutY="250" />
+    <DatePicker fx:id="dateNaissancePicker" layoutX="150" layoutY="250" />
+
+    <Label text="Mot de passe" layoutX="50" layoutY="290" />
+    <PasswordField fx:id="motDePasseField" layoutX="150" layoutY="290" />
+
+    <Label text="Rôle" layoutX="50" layoutY="330" />
+    <ComboBox fx:id="roleComboBox" layoutX="150" layoutY="330">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Étudiant" />
+                <String fx:value="Enseignant" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <Button fx:id="inscrireButton" layoutX="150" layoutY="380" text="Inscrire" onAction="#inscrireUtilisateur" />
+    <Text fx:id="feedbackText" layoutX="150" layoutY="420" />
+
+    <Button fx:id="retourButton" layoutX="150" layoutY="460" text="Retour" onAction="#handleRetourButtonAction"/>
+</AnchorPane>

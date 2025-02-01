@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.quiz.controller.QuizListController" styleClass="vbox">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+  </padding>
+   <children>
+      <TableView fx:id="questionTableView" prefHeight="400.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="questionIdColumn" prefWidth="50.0" text="ID" />
+            <TableColumn fx:id="questionTextColumn" prefWidth="200.0" text="Question" />
+            <TableColumn fx:id="optionAColumn" prefWidth="80.0" text="Option A" />
+            <TableColumn fx:id="optionBColumn" prefWidth="80.0" text="Option B" />
+            <TableColumn fx:id="optionCColumn" prefWidth="80.0" text="Option C" />
+            <TableColumn fx:id="optionDColumn" prefWidth="80.0" text="Option D" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>

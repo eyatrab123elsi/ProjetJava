@@ -52,4 +52,33 @@ public class QuestionDaoImpl implements QuestionDao {
         }
         return questions;
     }
+    @Override
+    public void updateQuestion(Question question) {
+        String sql = "UPDATE question SET question_text = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?, correct_answer_index = ? WHERE question_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+           stmt.setString(1, question.getQuestionText());
+           stmt.setString(2, question.getOptionA());
+           stmt.setString(3, question.getOptionB());
+           stmt.setString(4, question.getOptionC());
+           stmt.setString(5, question.getOptionD());
+           stmt.setInt(6, question.getCorrectAnswerIndex());
+           stmt.setInt(7, question.getQuestionId());
+           stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteQuestion(int questionId) {
+        String sql = "DELETE FROM question WHERE question_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, questionId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
