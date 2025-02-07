@@ -72,7 +72,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.learnify.cours.CoursApp</mainClass>
+                            <mainClass>com.learnify.rating.RatingApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>

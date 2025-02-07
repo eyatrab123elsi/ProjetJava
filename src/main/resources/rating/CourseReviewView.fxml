@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.rating.controller.CourseReviewController">
+    <children>
+        <ComboBox fx:id="courseComboBox" layoutX="50" layoutY="30" promptText="Select Course" />
+        <TextArea fx:id="reviewTextArea" layoutX="50" layoutY="70" prefHeight="100" prefWidth="300" promptText="Enter your review..." />
+
+        <!-- Slider for rating -->
+        <Slider fx:id="ratingSlider" layoutX="50" layoutY="200" min="1" max="5" showTickLabels="true"
+                showTickMarks="true" blockIncrement="1" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+
+        <!-- Label to show stars -->
+        <Label fx:id="starsLabel" layoutX="50" layoutY="240" text="★ ★ ★ ★ ★" />
+
+        <Button text="Submit Review" layoutX="50" layoutY="290" onAction="#submitReview" />
+    </children>
+</AnchorPane>
