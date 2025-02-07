@@ -1,7 +1,6 @@
 package com.learnify.cours.service;
 
 import com.learnify.cours.entities.Cours;
-
 import java.util.List;
 
 public interface CoursService {

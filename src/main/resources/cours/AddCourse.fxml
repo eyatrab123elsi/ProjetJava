@@ -11,28 +11,28 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.cours.controller.CoursController">
+<AnchorPane prefHeight="2000.0" prefWidth="1300.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.cours.controller.CoursController">
 
     <VBox alignment="CENTER" layoutX="50.0" layoutY="20.0" spacing="10">
 
         <HBox spacing="10" />
     </VBox>
 
-    <TableView fx:id="coursTable" layoutX="38.0" layoutY="155.0" prefHeight="230.0" prefWidth="523.0" styleClass="table-view">
+    <TableView fx:id="coursTable" layoutX="37.0" layoutY="867.0" prefHeight="695.0" prefWidth="1211.0" styleClass="table-view">
         <columns>
             <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
-            <TableColumn fx:id="colTitre" prefWidth="150.0" text="Titre" />
-            <TableColumn fx:id="colDescription" prefWidth="200.0" text="Description" />
-            <TableColumn fx:id="colDuree" prefWidth="100.0" text="Durée (h)" />
+            <TableColumn fx:id="colTitre" prefWidth="319.0" text="Titre" />
+            <TableColumn fx:id="colDescription" prefWidth="678.0" text="Description" />
+            <TableColumn fx:id="colDuree" prefWidth="134.0" text="Durée (h)" />
         </columns>
     </TableView>
-     <TextField fx:id="dureeField" layoutX="391.0" layoutY="106.0" promptText="Durée (en heures)" styleClass="input-field" />
-      <Button layoutX="410.0" layoutY="36.0" onAction="#supprimerCours" prefHeight="50.0" prefWidth="158.0" styleClass="delete-button" text="Supprimer Cours" />
-      <Button layoutX="256.0" layoutY="36.0" onAction="#ajouterCours" prefHeight="50.0" prefWidth="134.0" styleClass="action-button" text="Ajouter Cours" />
-     <TextField fx:id="descriptionField" layoutX="219.0" layoutY="106.0" prefHeight="29.0" prefWidth="147.0" promptText="Description du cours" styleClass="input-field" />
+     <TextField fx:id="dureeField" layoutX="143.0" layoutY="227.0" prefHeight="49.0" prefWidth="158.0" promptText="Durée (en heures)" styleClass="input-field" />
+      <Button layoutX="1090.0" layoutY="1580.0" onAction="#supprimerCours" prefHeight="50.0" prefWidth="158.0" styleClass="delete-button" text="Supprimer Cours" />
+      <Button layoutX="143.0" layoutY="784.0" onAction="#ajouterCours" prefHeight="50.0" prefWidth="134.0" styleClass="action-button" text="Ajouter Cours" />
+     <TextField fx:id="descriptionField" alignment="TOP_LEFT" layoutX="143.0" layoutY="301.0" prefHeight="445.0" prefWidth="971.0" promptText="Description du cours" styleClass="input-field" />
 
-     <TextField fx:id="titreField" layoutX="31.0" layoutY="106.0" promptText="Titre du cours" styleClass="input-field" />
-     <Label layoutX="22.0" layoutY="33.0" styleClass="title-label" text="Gestion des Cours" textFill="#4e26c7" />
+     <TextField fx:id="titreField" layoutX="143.0" layoutY="150.0" prefHeight="50.0" prefWidth="251.0" promptText="Titre du cours" styleClass="input-field" />
+     <Label layoutX="143.0" layoutY="71.0" styleClass="title-label" text="Gestion des Cours" textFill="#4e26c7" />
    <effect>
       <Blend />
    </effect>

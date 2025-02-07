@@ -1,5 +1,8 @@
 package com.learnify.cours.controller;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,6 +33,10 @@ public class CoursController {
 
     @FXML
     public void initialize() {
+        colId.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getId()).asObject());
+        colTitre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitre()));
+        colDescription.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+        colDuree.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDuree()).asObject());
 
         coursTable.setItems(coursList);
         afficherCours();
@@ -50,8 +57,7 @@ public class CoursController {
 
         Cours newCours = new Cours(null, titre, description, duree);
         coursService.addCours(newCours);
-        coursList.add(newCours);
-
+        afficherCours(); // Rafraîchir la liste
 
         titreField.clear();
         descriptionField.clear();
@@ -66,9 +72,18 @@ public class CoursController {
     @FXML
     private void supprimerCours() {
         Cours selectedCours = coursTable.getSelectionModel().getSelectedItem();
-        if (selectedCours != null) {
-            coursService.deleteCours(selectedCours.getId());
-            coursList.remove(selectedCours);
+        if (selectedCours != null && selectedCours.getId() != null) {
+            Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Voulez-vous vraiment supprimer ce cours ?",
+                    ButtonType.YES, ButtonType.NO);
+            confirmDialog.setTitle("Confirmation de suppression");
+            confirmDialog.setHeaderText(null);
+            confirmDialog.showAndWait();
+
+            if (confirmDialog.getResult() == ButtonType.YES) {
+                coursService.deleteCours(selectedCours.getId());
+                afficherCours();
+            }
         } else {
             showAlert("Aucun cours sélectionné", "Veuillez sélectionner un cours à supprimer.");
         }
