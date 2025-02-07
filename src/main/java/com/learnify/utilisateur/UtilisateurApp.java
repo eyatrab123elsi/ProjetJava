@@ -1,4 +1,4 @@
-package org.example;
+package com.learnify.utilisateur;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ import com.learnify.utilisateur.utils.DBConnection;
 
 import java.sql.Connection;
 
-public class MainApp extends Application {
+public class UtilisateurApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -29,7 +29,7 @@ public class MainApp extends Application {
 
             // Charger le fichier FXML pour l'écran d'authentification
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Authentification.fxml"));
+            loader.setLocation(getClass().getResource("/utilisateur/Authentification.fxml"));
 
             AnchorPane root = loader.load(); // Charge le FXML
 

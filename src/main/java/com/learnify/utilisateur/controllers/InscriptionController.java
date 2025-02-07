@@ -59,7 +59,7 @@ public class InscriptionController {
     @FXML
     private void handleRetourButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Authentification.fxml"));
             AnchorPane root = loader.load();
             Scene scene = new Scene(root);
 

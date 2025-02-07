@@ -1,5 +1,8 @@
 package com.learnify.cours.controller;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,7 +33,10 @@ public class CoursController {
 
     @FXML
     public void initialize() {
-
+        colId.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getId()).asObject());
+        colTitre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitre()));
+        colDescription.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+        colDuree.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDuree()).asObject());
         coursTable.setItems(coursList);
         afficherCours();
     }
@@ -50,7 +56,7 @@ public class CoursController {
 
         Cours newCours = new Cours(null, titre, description, duree);
         coursService.addCours(newCours);
-        coursList.add(newCours);
+        afficherCours(); 
 
 
         titreField.clear();

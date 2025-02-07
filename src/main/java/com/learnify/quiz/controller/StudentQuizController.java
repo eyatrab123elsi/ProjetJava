@@ -25,7 +25,7 @@ public class StudentQuizController {
     private void loadUI(String ui) {
         Parent root;
         try {
-             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/learnify/quiz/ui/"+ui+".fxml")));
+             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/quiz/"+ui+".fxml")));
             mainPane.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();

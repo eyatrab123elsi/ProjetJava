@@ -49,7 +49,7 @@ public class ResetPasswordController {
         try {
             // Retour à l'écran de connexion
             Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/Authentification.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/utilisateur/Authentification.fxml"))));
         } catch (IOException e) {
             e.printStackTrace();
         }

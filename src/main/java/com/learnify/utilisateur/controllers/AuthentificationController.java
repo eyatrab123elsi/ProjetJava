@@ -62,7 +62,7 @@ public class AuthentificationController {
 
     private void redirectToAdminPage() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AdminPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/AdminPage.fxml"));
             AnchorPane root = loader.load();
             Scene scene = new Scene(root);
 
@@ -81,7 +81,7 @@ public class AuthentificationController {
             Utilisateur utilisateur = utilisateurService.getUtilisateurByEmail(usernameField.getText()); // Utilisez la méthode pour récupérer l'utilisateur par email
 
             // Charger la page de profil et obtenir le contrôleur
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfilPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/ProfilPage.fxml"));
             AnchorPane root = loader.load();
             ProfilController profilController = loader.getController();
 
@@ -110,7 +110,7 @@ public class AuthentificationController {
     @FXML
     private void handleRegisterButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Inscription.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Inscription.fxml"));
             AnchorPane root = loader.load();
             Scene scene = new Scene(root);
 
@@ -125,7 +125,7 @@ public class AuthentificationController {
     @FXML
     private void handleForgotPasswordButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PasswordReset.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/PasswordReset.fxml"));
             AnchorPane root = loader.load();
             Scene scene = new Scene(root);
 

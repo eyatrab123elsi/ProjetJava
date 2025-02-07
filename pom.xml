@@ -72,7 +72,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.learnify.quiz.Main</mainClass>
+                            <mainClass>com.learnify.cours.CoursApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>

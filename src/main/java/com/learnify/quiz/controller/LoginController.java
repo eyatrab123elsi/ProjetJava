@@ -31,9 +31,9 @@ public class LoginController {
             Stage stage = (Stage) teacherRadio.getScene().getWindow(); // Get the Stage from teacherRadio
             Parent root;
             if (selectedType.equals("Teacher")) {
-                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/learnify/quiz/ui/teacher_dashboard.fxml")));
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/quiz/teacher_dashboard.fxml")));
             } else {
-                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/learnify/quiz/ui/student_dashboard.fxml")));
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/quiz/student_dashboard.fxml")));
             }
             Scene scene = new Scene(root);
             stage.setScene(scene);

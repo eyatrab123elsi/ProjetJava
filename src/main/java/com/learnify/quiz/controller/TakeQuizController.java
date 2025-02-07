@@ -134,7 +134,7 @@ public class TakeQuizController {
      }
       private void loadResultUI() throws IOException {
           Stage stage = (Stage) questionLabel.getScene().getWindow();
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/learnify/quiz/ui/quiz_results.fxml"));
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/quiz/quiz_results.fxml"));
              Parent root = loader.load();
            ResultController controller = loader.getController();
          controller.setResult("Your score is "+ score + "/" + questions.size());

@@ -1,6 +1,6 @@
 package com.learnify.quiz.controller;
 
-import com.learnify.quiz.Main; // Import Main to use its method
+import com.learnify.quiz.QuizApp; // Import Main to use its method
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,22 +18,22 @@ public class TeacherQuizController {
 
     @FXML
     void handleCreateQuestion() {
-       loadUI("/com/learnify/quiz/ui/create_question.fxml");
+       loadUI("/quiz/create_question.fxml");
     }
 
     @FXML
     void handleEditQuestion() {
-         loadUI("/com/learnify/quiz/ui/edit_question.fxml");
+         loadUI("/quiz/edit_question.fxml");
     }
 
     @FXML
     void handleDeleteQuestion() {
-         loadUI("/com/learnify/quiz/ui/delete_question.fxml");
+         loadUI("/quiz/delete_question.fxml");
     }
 
     @FXML
     void handleQuizList() {
-        loadUI("/com/learnify/quiz/ui/quiz_list.fxml");
+        loadUI("/quiz/quiz_list.fxml");
     }
 
      private void loadUI(String fxmlPath) {

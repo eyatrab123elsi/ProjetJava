@@ -16,7 +16,7 @@ public class Cours {
 
     public Long getId() {
         return course_id;
-    }
+    }    
 
     public void setId(Long course_id) {
         this.course_id = course_id;
