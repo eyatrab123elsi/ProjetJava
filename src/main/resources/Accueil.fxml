@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.FontWeight?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.effect.DropShadow?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.learnify.utilisateur.controllers.AccueilController"
+           prefWidth="1200" prefHeight="1200">
+
+    <!-- Image d'arrière-plan dynamique -->
+    <ImageView fx:id="imageView" fitWidth="1600" fitHeight="1000" preserveRatio="false" />
+
+    <!-- Conteneur pour les boutons en haut à droite -->
+    <BorderPane>
+        <!-- Boutons placés en haut à droite -->
+        <top>
+            <HBox alignment="TOP_RIGHT" spacing="20">
+                <padding>
+                    <Insets top="20" right="20" />
+                </padding>
+                <Button fx:id="signUpButton" text="Sign Up" onAction="#handleInscription">
+                    <font>
+                        <Font name="Arial" size="16" />
+                    </font>
+                    <style>
+                        -fx-background-color: linear-gradient(to bottom, #8A2BE2, #87CEEB);
+                        -fx-text-fill: white;
+                        -fx-font-weight: bold;
+                        -fx-padding: 15px 30px;
+                        -fx-border-radius: 25px;
+                        -fx-background-radius: 25px;
+                        -fx-cursor: hand;
+                        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+                        -fx-min-width: 120px;  /* Définition d'une largeur minimale */
+                        -fx-pref-width: 150px; /* Définition d'une largeur préférée */
+                        -fx-max-width: 150px;  /* Définition d'une largeur maximale */
+                    </style>
+                </Button>
+                <Button fx:id="signInButton" text="Sign In" onAction="#handleConnexion">
+                    <font>
+                        <Font name="Arial" size="16" />
+                    </font>
+                    <style>
+                        -fx-background-color: linear-gradient(to bottom, #8A2BE2, #87CEEB);
+                        -fx-text-fill: white;
+                        -fx-font-weight: bold;
+                        -fx-padding: 15px 30px;
+                        -fx-border-radius: 25px;
+                        -fx-background-radius: 25px;
+                        -fx-cursor: hand;
+                        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+                        -fx-min-width: 120px;
+                        -fx-pref-width: 150px;
+                        -fx-max-width: 150px;
+                    </style>
+                </Button>
+
+            </HBox>
+        </top>
+    </BorderPane>
+
+    <!-- Contenu en avant-plan -->
+    <VBox alignment="CENTER" spacing="20" maxWidth="800">
+        <!-- Titre -->
+        <!-- Description -->
+    </VBox>
+
+</StackPane>

@@ -22,10 +22,13 @@ public class UtilisateurService {
         // Utiliser getConn() au lieu de getConnection()
         this.conn = DBConnection.getInstance().getConn();
     }
+    private Connection connection;
 
-    // Méthode pour ajouter un utilisateur
+
+
     public boolean ajouterUtilisateur(String nom, String prenom, String email, String motDePasse, String telephone, String adresse, String dateNaissance, String role) {
-        String query = "INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, telephone, adresse, date_naissance, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // Le statut de validation initialement sur false (en attente de validation)
+        String query = "INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, telephone, adresse, date_naissance, role, est_valide) VALUES (?, ?, ?, ?, ?, ?, ?, ?, FALSE)";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nom);
             stmt.setString(2, prenom);
@@ -64,7 +67,7 @@ public class UtilisateurService {
             return "Admin";
         }
 
-        // Vérification dans la base de données avec le champ "est_valide"
+
         String query = "SELECT role, est_valide FROM utilisateurs WHERE email = ? AND mot_de_passe = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -75,9 +78,9 @@ public class UtilisateurService {
             if (rs.next()) {
                 boolean estValide = rs.getBoolean("est_valide");
                 if (!estValide) {
-                    return "NonValidé"; // Indique que le compte n'est pas encore validé
+                    return "NonValidé";
                 }
-                return rs.getString("role");  // Retourne le rôle si validé
+                return rs.getString("role");
             } else {
                 System.out.println("Utilisateur non trouvé dans la base de données.");
             }
@@ -87,7 +90,7 @@ public class UtilisateurService {
         return null;
     }
 
-    // Méthode pour récupérer les utilisateurs par rôle
+
     public List<Utilisateur> getUtilisateursByRole(String role) {
         String query = "SELECT * FROM utilisateurs WHERE role = ?";
         List<Utilisateur> utilisateurs = new ArrayList<>();
@@ -96,14 +99,19 @@ public class UtilisateurService {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");  // Récupération de 'prenom'
                 String email = rs.getString("email");
-                utilisateurs.add(new Utilisateur(nom, email, role));
+                String telephone = rs.getString("telephone");
+                String adresse = rs.getString("adresse");
+                LocalDate dateNaissance = rs.getDate("date_naissance").toLocalDate(); // Assurez-vous que la colonne est de type DATE
+                utilisateurs.add(new Utilisateur(nom, prenom, email, telephone, adresse, dateNaissance, "", role));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return utilisateurs;
     }
+
 
     public boolean supprimerUtilisateur(String email) {
         String query = "DELETE FROM utilisateurs WHERE email = ?";
@@ -130,8 +138,18 @@ public class UtilisateurService {
             return false;
         }
     }
+    public boolean rejeterUtilisateur(String email) {
+        String query = "DELETE FROM utilisateurs WHERE email = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-    // Méthode pour valider un utilisateur
     public boolean validerUtilisateur(String email) {
         String query = "UPDATE utilisateurs SET est_valide = TRUE WHERE email = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -145,23 +163,8 @@ public class UtilisateurService {
     }
 
 
-    // Méthode pour récupérer les utilisateurs en attente de validation
-    public List<Utilisateur> getUtilisateursNonValides() {
-        String query = "SELECT * FROM utilisateurs WHERE est_valide = FALSE";
-        List<Utilisateur> utilisateurs = new ArrayList<>();
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String nom = rs.getString("nom");
-                String email = rs.getString("email");
-                String role = rs.getString("role");
-                utilisateurs.add(new Utilisateur(nom, email, role));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return utilisateurs;
-    }
+
+
     public Utilisateur getUtilisateurByEmail(String email) {
         String query = "SELECT * FROM utilisateurs WHERE email = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -175,13 +178,11 @@ public class UtilisateurService {
                 String role = rs.getString("role");
                 String dateNaissanceString = rs.getString("date_naissance");
 
-                // Convertir la date de naissance (String) en LocalDate
                 LocalDate dateNaissance = null;
                 if (dateNaissanceString != null && !dateNaissanceString.isEmpty()) {
                     dateNaissance = LocalDate.parse(dateNaissanceString, DateTimeFormatter.ISO_DATE);
                 }
 
-                // Créer un objet Utilisateur en utilisant le constructeur approprié
                 return new Utilisateur(nom, prenom, email, telephone, adresse, dateNaissance, "", role);
             }
         } catch (SQLException e) {
@@ -189,6 +190,85 @@ public class UtilisateurService {
         }
         return null; // Si l'utilisateur n'est pas trouvé
     }
+    public boolean emailExiste(String email) {
+        String query = "SELECT COUNT(*) FROM utilisateurs WHERE email = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) { // Utiliser 'conn' ici
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0; // Si le nombre d'occurrences est supérieur à 0, l'email existe
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean Modify(Utilisateur utilisateur, String ancienEmail) {
+        String query = "UPDATE utilisateurs SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ?, role = ?, date_naissance = ? WHERE email = ?";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, utilisateur.getNom());
+            preparedStatement.setString(2, utilisateur.getPrenom());
+            preparedStatement.setString(3, utilisateur.getEmail()); // Nouvel email
+            preparedStatement.setString(4, utilisateur.getTelephone());
+            preparedStatement.setString(5, utilisateur.getAdresse());
+            preparedStatement.setString(6, utilisateur.getRole());
+            preparedStatement.setDate(7, java.sql.Date.valueOf(utilisateur.getDateNaissance()));
+            preparedStatement.setString(8, ancienEmail); // Ancien email pour la clause WHERE
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean mettreAJourUtilisateur(Utilisateur user) {
+        String query = "UPDATE utilisateurs SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ?, date_naissance = ?, role = ? WHERE email = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, user.getNom());
+            stmt.setString(2, user.getPrenom());
+            stmt.setString(3, user.getEmail());
+
+            stmt.setString(4, user.getTelephone());
+            stmt.setString(5, user.getAdresse());
+            stmt.setString(6, user.getDateNaissance().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            stmt.setString(7, user.getRole());
+            stmt.setString(8, user.getEmail());  // Mise à jour basée sur l'email actuel
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
+
+
+
+    public List<Utilisateur> getUtilisateursNonValides() {
+        String query = "SELECT * FROM utilisateurs WHERE est_valide = FALSE";
+        List<Utilisateur> utilisateurs = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String email = rs.getString("email");
+                String telephone = rs.getString("telephone");
+                String adresse = rs.getString("adresse");
+                String role = rs.getString("role");
+                LocalDate dateNaissance = rs.getDate("date_naissance").toLocalDate();
+                utilisateurs.add(new Utilisateur(nom, prenom, email, telephone, adresse, dateNaissance, "", role));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utilisateurs;
+    }
 }

@@ -1,0 +1,9 @@
+[33m05262ba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mgestionutilisateur[m[33m, [m[1;31morigin/gestionutilisateur[m[33m)[m Profil
+[33m37e8cc5[m adminpage,crud,inscription,auth
+[33m9560c92[m Modification
+[33me02133a[m Modification au niveau de la page d'authentification et connexion
+[33m3126499[m Connexion à la base de données
+[33mafe0b06[m Suppression du fichier aa.fxml
+[33m38bbf1b[m Ajout des fonctionnalités de gestion des utilisateurs
+[33m5c37224[m Restored pom.xml
+[33m1308a66[m Test initial commit

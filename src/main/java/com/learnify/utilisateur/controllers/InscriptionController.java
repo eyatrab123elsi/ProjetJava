@@ -8,7 +8,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import com.learnify.utilisateur.services.UtilisateurService;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.io.IOException;
+import javafx.scene.layout.StackPane;
+
 
 public class InscriptionController {
 
@@ -59,15 +63,44 @@ public class InscriptionController {
     @FXML
     private void handleRetourButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification.fxml"));
-            AnchorPane root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Accueil.fxml"));
+            StackPane root = loader.load(); // Utiliser StackPane ici
             Scene scene = new Scene(root);
 
             Stage stage = (Stage) retourButton.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Page d'Authentification");
+            stage.setTitle("Page d'Accueil");
         } catch (IOException e) {
             e.printStackTrace();
+            // Afficher une alerte à l'utilisateur
+            showErrorAlert("Erreur", "Impossible de charger la page d'accueil.");
         }
+    }
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void addHoverEffect(Button button) {
+        button.setOnMouseEntered(event -> {
+            button.setStyle("-fx-background-color: #5E35B1; -fx-text-fill: white;");
+        });
+        button.setOnMouseExited(event -> {
+            button.setStyle("-fx-background-color: #7E57C2; -fx-text-fill: white;");
+        });
+    }
+
+    @FXML
+    public void initialize() {
+        addHoverEffect(inscrireButton);
+        addHoverEffect(retourButton);
+
+        // Initialiser le ComboBox des rôles
+        ObservableList<String> roles = FXCollections.observableArrayList("Étudiant", "Enseignant");
+        roleComboBox.setItems(roles);
     }
 }

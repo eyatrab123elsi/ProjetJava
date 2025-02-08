@@ -1,45 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.paint.*?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-<?import java.lang.String?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.InscriptionController">
-    <Label text="Nom" layoutX="50" layoutY="50" />
-    <TextField fx:id="nomField" layoutX="150" layoutY="50" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.InscriptionController"
+            style="-fx-background-color: linear-gradient(to right, #7aaaea, #9272dd); -fx-padding: 20px;">
 
-    <Label text="Prénom" layoutX="50" layoutY="90" />
-    <TextField fx:id="prenomField" layoutX="150" layoutY="90" />
+    <!-- Conteneur principal centré avec un effet de drop shadow -->
+    <VBox alignment="CENTER" spacing="20.0" prefWidth="500" prefHeight="500" layoutX="500" layoutY="120"
+          style="-fx-background-color: #EDE7F6; -fx-padding: 30; -fx-background-radius: 10;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
+                 -fx-min-width: 400px; -fx-max-width: 600px; -fx-min-height: 500px; -fx-max-height: 600px;">
 
-    <Label text="Email" layoutX="50" layoutY="130" />
-    <TextField fx:id="emailField" layoutX="150" layoutY="130" />
+        <!-- Header Design -->
+        <Label text="Sign Up" style="-fx-font-size: 24px; -fx-text-fill: #4A148C; -fx-font-weight: bold; -fx-font-family: 'Arial';"/>
 
-    <Label text="Téléphone" layoutX="50" layoutY="170" />
-    <TextField fx:id="telephoneField" layoutX="150" layoutY="170" />
+        <!-- Form Fields -->
+        <VBox alignment="CENTER" spacing="15">
+            <HBox spacing="10">
+                <Label text="Nom" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <TextField fx:id="nomField" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-text-fill: #4A148C;"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Prénom" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <TextField fx:id="prenomField" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-text-fill: #4A148C;"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Email" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <TextField fx:id="emailField" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-text-fill: #4A148C;"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Téléphone" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <TextField fx:id="telephoneField" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-text-fill: #4A148C;"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Adresse" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <TextField fx:id="adresseField" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-text-fill: #4A148C;"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Date de naissance" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <DatePicker fx:id="dateNaissancePicker" style="-fx-background-radius: 15;"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Mot de passe" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <PasswordField fx:id="motDePasseField" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-text-fill: #4A148C;"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Rôle" style="-fx-text-fill: #4A148C; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="roleComboBox" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF;">
+                    <!-- Items for ComboBox will be set in the Controller -->
+                </ComboBox>
+            </HBox>
+        </VBox>
 
-    <Label text="Adresse" layoutX="50" layoutY="210" />
-    <TextField fx:id="adresseField" layoutX="150" layoutY="210" />
+        <!-- Buttons avec taille fixe -->
+        <HBox spacing="20" alignment="CENTER">
+            <Button fx:id="inscrireButton" text="S'inscrire" onAction="#inscrireUtilisateur"
+                    style="-fx-background-color: #7E57C2; -fx-text-fill: white; -fx-background-radius: 25;
+                           -fx-padding: 10px 20px; -fx-font-size: 14px; -fx-font-weight: bold;"
+                    prefWidth="150"/> <!-- Largeur fixe pour le bouton "S'inscrire" -->
+            <Button fx:id="retourButton" onAction="#handleRetourButtonAction"
+                    style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitWidth="24" fitHeight="24">
+                        <Image url="@/image/back_icon.png"/> <!-- Remplacez par le chemin de votre icône -->
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Retour à l'accueil"/> <!-- Définir le Tooltip correctement -->
+                </tooltip>
 
-    <Label text="Date de naissance" layoutX="50" layoutY="250" />
-    <DatePicker fx:id="dateNaissancePicker" layoutX="150" layoutY="250" />
+            </Button>
+        </HBox>
 
-    <Label text="Mot de passe" layoutX="50" layoutY="290" />
-    <PasswordField fx:id="motDePasseField" layoutX="150" layoutY="290" />
-
-    <Label text="Rôle" layoutX="50" layoutY="330" />
-    <ComboBox fx:id="roleComboBox" layoutX="150" layoutY="330">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Étudiant" />
-                <String fx:value="Enseignant" />
-            </FXCollections>
-        </items>
-    </ComboBox>
-
-    <Button fx:id="inscrireButton" layoutX="150" layoutY="380" text="Inscrire" onAction="#inscrireUtilisateur" />
-    <Text fx:id="feedbackText" layoutX="150" layoutY="420" />
-
-    <Button fx:id="retourButton" layoutX="150" layoutY="460" text="Retour" onAction="#handleRetourButtonAction"/>
+        <Text fx:id="feedbackText" style="-fx-fill: #4A148C; -fx-font-weight: bold;"/>
+    </VBox>
 </AnchorPane>

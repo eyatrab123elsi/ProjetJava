@@ -3,51 +3,64 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.paint.Color?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.ProfilController">
-    <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" spacing="20.0">
-        <Label text="Profil de l'utilisateur" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+    <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #f4f4f9; -fx-padding: 30px; -fx-border-radius: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+        <!-- Image de Profil -->
+        <StackPane>
+            <ImageView fx:id="imageView" fitHeight="150" fitWidth="150" style="-fx-background-radius: 50%; -fx-border-color: #8e44ad; -fx-border-width: 4px;">
+                <image>
+                    <Image url="@image/profil.png" /> <!-- Chemin correct pour l'image -->
+                </image>
+            </ImageView>
+        </StackPane>
 
-        <!-- Nom -->
-        <HBox spacing="10">
-            <Label text="Nom:" style="-fx-font-size: 16px;" />
-            <Label fx:id="nomLabel" style="-fx-font-size: 16px;" />
-        </HBox>
+        <!-- Titre du profil -->
+        <Label text="Profil de l'utilisateur" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #8e44ad;" />
 
-        <!-- Prénom -->
-        <HBox spacing="10">
-            <Label text="Prénom:" style="-fx-font-size: 16px;" />
-            <Label fx:id="prenomLabel" style="-fx-font-size: 16px;" />
-        </HBox>
+        <!-- Informations de l'utilisateur -->
+        <GridPane hgap="15" vgap="10" alignment="CENTER_LEFT">
+            <!-- Nom -->
+            <Label text="Nom:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+            <TextField fx:id="nomField" editable="false" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="0" GridPane.columnIndex="2" />
 
-        <!-- Email -->
-        <HBox spacing="10">
-            <Label text="Email:" style="-fx-font-size: 16px;" />
-            <Label fx:id="emailLabel" style="-fx-font-size: 16px;" />
-        </HBox>
+            <!-- Prénom -->
+            <Label text="Prénom:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <Label fx:id="prenomLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            <TextField fx:id="prenomField" editable="false"  style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="1" GridPane.columnIndex="2" />
 
-        <!-- Téléphone -->
-        <HBox spacing="10">
-            <Label text="Téléphone:" style="-fx-font-size: 16px;" />
-            <Label fx:id="telephoneLabel" style="-fx-font-size: 16px;" />
-        </HBox>
+            <!-- Email -->
+            <Label text="Email:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <Label fx:id="emailLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            <TextField fx:id="emailField" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="2" GridPane.columnIndex="2" />
 
-        <!-- Adresse -->
-        <HBox spacing="10">
-            <Label text="Adresse:" style="-fx-font-size: 16px;" />
-            <Label fx:id="adresseLabel" style="-fx-font-size: 16px;" />
-        </HBox>
+            <!-- Téléphone -->
+            <Label text="Téléphone:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <Label fx:id="telephoneLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+            <TextField fx:id="telephoneField" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="3" GridPane.columnIndex="2" />
 
-        <!-- Rôle -->
-        <HBox spacing="10">
-            <Label text="Rôle:" style="-fx-font-size: 16px;" />
-            <Label fx:id="roleLabel" style="-fx-font-size: 16px;" />
-        </HBox>
+            <!-- Adresse -->
+            <Label text="Adresse:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            <Label fx:id="adresseLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+            <TextField fx:id="adresseField" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="4" GridPane.columnIndex="2" />
 
-        <!-- Date de naissance -->
-        <HBox spacing="10">
-            <Label text="Date de naissance:" style="-fx-font-size: 16px;" />
-            <Label fx:id="dateNaissanceLabel" style="-fx-font-size: 16px;" />
-        </HBox>
+            <!-- Rôle -->
+            <Label text="Rôle:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+            <Label fx:id="roleLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+            <TextField fx:id="roleField" editable="false"  style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="5" GridPane.columnIndex="2" />
+
+            <!-- Date de naissance -->
+            <Label text="Date de naissance:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+            <Label fx:id="dateNaissanceLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+            <DatePicker fx:id="dateNaissancePicker" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="6" GridPane.columnIndex="2" />
+        </GridPane>
+
+        <!-- Bouton de mise à jour -->
+        <Button text="Mettre à jour le profil" onAction="#updateProfil" style="-fx-font-size: 16px; -fx-background-color: #8e44ad; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 10px;" />
     </VBox>
 </AnchorPane>
