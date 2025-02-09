@@ -12,7 +12,6 @@ public class DatabaseConnection {
             DatabaseMetaData metaData = connection.getMetaData();
 
             // Check and create tables
-            checkAndCreateTable(metaData, connection, "quiz", createQuizTableSQL());
             checkAndCreateTable(metaData, connection, "question", createQuestionTableSQL());
             checkAndCreateTable(metaData, connection, "user", createUserTableSQL());
             checkAndCreateTable(metaData, connection, "result", createResultTableSQL());
@@ -44,13 +43,6 @@ public class DatabaseConnection {
         }
     }
     // SQL for the tables
-    private static String createQuizTableSQL() {
-        return "CREATE TABLE quiz (" +
-                "quiz_id INT AUTO_INCREMENT PRIMARY KEY," +
-                "quiz_title VARCHAR(255) NOT NULL" +
-                ")";
-    }
-
     private static String createQuestionTableSQL() {
         return "CREATE TABLE question (" +
                 "question_id INT AUTO_INCREMENT PRIMARY KEY," +
@@ -61,7 +53,7 @@ public class DatabaseConnection {
                 "option_c VARCHAR(255)," +
                 "option_d VARCHAR(255)," +
                 "correct_answer_index INT NOT NULL," +
-                "FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) ON DELETE CASCADE" +
+                "FOREIGN KEY (quiz_id) REFERENCES courses(course_id) ON DELETE CASCADE" +
                 ")";
     }
 
@@ -80,7 +72,7 @@ public class DatabaseConnection {
                 "quiz_id INT," +
                 "score INT NOT NULL," +
                  "FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE," +
-                 "FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) ON DELETE CASCADE" +
+                 "FOREIGN KEY (quiz_id) REFERENCES courses(course_id) ON DELETE CASCADE" +
                 ")";
     }
 }

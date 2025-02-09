@@ -1,53 +1,57 @@
 package com.learnify.quiz.controller;
 
 import com.learnify.quiz.model.Question;
+import com.learnify.quiz.model.Quiz;
 import com.learnify.quiz.service.QuestionService;
 import com.learnify.quiz.service.QuestionServiceImpl;
+import com.learnify.quiz.service.QuizService;
+import com.learnify.quiz.service.QuizServiceImpl;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-
 import java.util.List;
 
-
 public class DeleteQuestionController {
-
-    @FXML
-    private TextArea questionTextArea;
-     @FXML
-    private ComboBox<Question> questionComboBox;
-    private Question selectedQuestion;
+    @FXML private ComboBox<Quiz> quizComboBox;
+    @FXML private ComboBox<Question> questionComboBox;
+    @FXML private TextArea questionTextArea;
+    
     private final QuestionService questionService = new QuestionServiceImpl();
+    private final QuizService quizService = new QuizServiceImpl();
 
     @FXML
     public void initialize() {
-       loadQuestionData();
-       questionComboBox.setOnAction(this::handleQuestionSelection);
+        quizComboBox.setItems(FXCollections.observableArrayList(quizService.getAllQuizzes()));
+        quizComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if(newVal != null) {
+                loadQuestionsForQuiz(newVal.getQuizId());
+            }
+        });
+        
+        questionComboBox.setOnAction(this::handleQuestionSelection);
     }
-    private void loadQuestionData() {
-       List<Question> questions = questionService.getAllQuestions();
-        ObservableList<Question> observableList = FXCollections.observableArrayList(questions);
-        questionComboBox.setItems(observableList);
+
+    private void loadQuestionsForQuiz(int quizId) {
+        List<Question> questions = questionService.getQuestionsByQuizId(quizId);
+        questionComboBox.setItems(FXCollections.observableArrayList(questions));
     }
+
     private void handleQuestionSelection(ActionEvent event) {
-       selectedQuestion = questionComboBox.getValue();
-      if (selectedQuestion != null) {
-          questionTextArea.setText(selectedQuestion.getQuestionText());
-       }
+        Question selected = questionComboBox.getValue();
+        if(selected != null) {
+            questionTextArea.setText(selected.getQuestionText());
+        }
     }
+
     @FXML
     void handleDeleteQuestion(ActionEvent event) {
-      if(selectedQuestion == null) {
-          System.out.println("Select a question first");
-         return;
-       }
-
-        questionService.deleteQuestion(selectedQuestion.getQuestionId());
-
-        System.out.println("Question Deleted");
-         questionTextArea.clear();
+        Question selected = questionComboBox.getValue();
+        if(selected != null) {
+            questionService.deleteQuestion(selected.getQuestionId());
+            questionComboBox.getItems().remove(selected);
+            questionTextArea.clear();
+        }
     }
 }

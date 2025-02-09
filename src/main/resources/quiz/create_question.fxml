@@ -7,23 +7,52 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane alignment="CENTER" hgap="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.quiz.controller.CreateQuestionController">
+<GridPane xmlns="http://javafx.com/javafx/23" 
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.learnify.quiz.controller.CreateQuestionController"
+          alignment="CENTER" 
+          hgap="15" 
+          vgap="15"
+          prefWidth="600" 
+          prefHeight="400">
+    
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
-    <children>
-        <Label text="Question Text:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label"/>
-        <TextField fx:id="questionTextField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field"/>
-        <Label text="Option A:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label"/>
-        <TextField fx:id="optionATextField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field"/>
-        <Label text="Option B:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label"/>
-        <TextField fx:id="optionBTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-field"/>
-        <Label text="Option C:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label"/>
-        <TextField fx:id="optionCTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="text-field"/>
-        <Label text="Option D:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="label"/>
-        <TextField fx:id="optionDTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="text-field"/>
-        <Label text="Correct Option:" GridPane.columnIndex="0" GridPane.rowIndex="5" styleClass="label"/>
-        <ComboBox fx:id="correctAnswerComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="combo-box" />
-        <Button mnemonicParsing="false" onAction="#handleSaveQuestion" text="Save Question" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="button" />
-    </children>
+
+    <!-- Row 0: Quiz Selection -->
+    <Label text="Select Quiz:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <ComboBox fx:id="quizComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+    <!-- Row 1: Question Text -->
+    <Label text="Question Text:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="questionTextField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <!-- Row 2: Option A -->
+    <Label text="Option A:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="optionATextField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+    <!-- Row 3: Option B -->
+    <Label text="Option B:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <TextField fx:id="optionBTextField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <!-- Row 4: Option C -->
+    <Label text="Option C:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField fx:id="optionCTextField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+    <!-- Row 5: Option D -->
+    <Label text="Option D:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+    <TextField fx:id="optionDTextField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+    <!-- Row 6: Correct Answer -->
+    <Label text="Correct Answer:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+    <ComboBox fx:id="correctAnswerComboBox" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    <!-- Row 7: Save Button -->
+    <Button text="Save Question" 
+            onAction="#handleSaveQuestion"
+            GridPane.rowIndex="7" 
+            GridPane.columnIndex="1"
+            GridPane.halignment="RIGHT"/>
+
 </GridPane>

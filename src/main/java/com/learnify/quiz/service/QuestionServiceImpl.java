@@ -26,4 +26,9 @@ public class QuestionServiceImpl implements QuestionService {
     public void deleteQuestion(int questionId) {
         questionDao.deleteQuestion(questionId);
     }
+
+    @Override
+    public List<Question> getQuestionsByQuizId(int quizId) {
+        return questionDao.getQuestionsByQuizId(quizId);
+    }
 }
