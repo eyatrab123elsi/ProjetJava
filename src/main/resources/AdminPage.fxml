@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.FontWeight?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.learnify.utilisateur.controllers.AdminPage"
-            prefWidth="1200" prefHeight="900">
+            prefWidth="1200" prefHeight="900"
+            style="-fx-background-color: linear-gradient(to right, #dfa1f6, #d1c9d1);">
 
-    <VBox spacing="20" layoutX="20" layoutY="20">
-        <!-- Titre de la page -->
-        <Label fx:id="welcomeLabel" text="Bienvenue sur la page d'administration"
-               styleClass="title-label"/>
+    <!-- Le bouton logout est positionné en haut à droite -->
+    <Button fx:id="logoutButton" onAction="#handleLogout" style="-fx-background-color: transparent;" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10">
+        <graphic>
+            <ImageView fx:id="logoutIcon" fitHeight="30" fitWidth="30">
+                <image>
+                    <Image url="@/image/logout-icon.png"/>
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <!-- Conteneur principal centré -->
+    <VBox spacing="20" alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <!-- Titre de la page centré -->
+        <Label fx:id="welcomeLabel" text="Welcome to the administration page"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"
+               alignment="CENTER"/>
 
         <!-- Filtres -->
-        <HBox spacing="10">
-            <Label text="Filtrer par rôle :"/>
-            <ComboBox fx:id="filterRoleComboBox" promptText="Sélectionner un rôle" prefWidth="200"/>
-        </HBox>
+        <VBox spacing="15" alignment="TOP_LEFT" prefWidth="200">
+            <!-- Filtres -->
+            <Label text="Filtrer par rôle :" style="-fx-text-fill: black; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="filterRoleComboBox" promptText="Sélectionner un rôle" prefWidth="180"/>
+        </VBox>
 
         <!-- Table des enseignants -->
-        <TitledPane text="Enseignants" expanded="true">
+        <TitledPane text="Enseignants" expanded="true" style="-fx-background-color: transparent;">
             <TableView fx:id="teachersTable" prefWidth="1130" prefHeight="200">
                 <columns>
-                    <TableColumn fx:id="nameColumn" text="Nom" prefWidth="120"/>
+                    <TableColumn fx:id="nameColumn" text="Nom" prefWidth="120" />
                     <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="120"/>
                     <TableColumn fx:id="emailColumn" text="Email" prefWidth="180"/>
                     <TableColumn fx:id="telephoneColumn" text="Téléphone" prefWidth="120"/>
                     <TableColumn fx:id="adresseColumn" text="Adresse" prefWidth="180"/>
                     <TableColumn fx:id="dateNaissanceColumn" text="Date de naissance" prefWidth="150"/>
                     <TableColumn fx:id="roleColumn" text="Rôle" prefWidth="100"/>
-                    <TableColumn fx:id="editColumn" text="Modifier" prefWidth="80"/>
-                    <TableColumn fx:id="deleteColumn" text="Supprimer" prefWidth="80"/>
+                    <TableColumn fx:id="actionColumn" text="Action" prefWidth="160"/>
                 </columns>
             </TableView>
         </TitledPane>
 
         <!-- Table des étudiants -->
-        <TitledPane text="Étudiants" expanded="true">
+        <TitledPane text="Étudiants" expanded="true" style="-fx-background-color: transparent;">
             <TableView fx:id="studentsTable" prefWidth="1130" prefHeight="200">
                 <columns>
                     <TableColumn fx:id="nameColumnStudent" text="Nom" prefWidth="120"/>
@@ -45,25 +64,7 @@
                     <TableColumn fx:id="adresseColumnStudent" text="Adresse" prefWidth="180"/>
                     <TableColumn fx:id="dateNaissanceColumnStudent" text="Date de naissance" prefWidth="150"/>
                     <TableColumn fx:id="roleColumnStudent" text="Rôle" prefWidth="100"/>
-                    <TableColumn fx:id="editColumnStudent" text="Modifier" prefWidth="80"/>
-                    <TableColumn fx:id="deleteColumnStudent" text="Supprimer" prefWidth="80"/>
-                </columns>
-            </TableView>
-        </TitledPane>
-
-        <!-- Table des utilisateurs en attente -->
-        <TitledPane text="Utilisateurs en attente de validation" expanded="true">
-            <TableView fx:id="pendingValidationTable" prefWidth="1130" prefHeight="200">
-                <columns>
-                    <TableColumn fx:id="nameColumnPending" text="Nom" prefWidth="120"/>
-                    <TableColumn fx:id="prenomColumnPending" text="Prénom" prefWidth="120"/>
-                    <TableColumn fx:id="emailColumnPending" text="Email" prefWidth="180"/>
-                    <TableColumn fx:id="telephoneColumnPending" text="Téléphone" prefWidth="120"/>
-                    <TableColumn fx:id="adresseColumnPending" text="Adresse" prefWidth="180"/>
-                    <TableColumn fx:id="dateNaissanceColumnPending" text="Date de naissance" prefWidth="150"/>
-                    <TableColumn fx:id="roleColumnPending" text="Rôle" prefWidth="100"/>
-                    <TableColumn fx:id="validateColumn" text="Valider" prefWidth="90"/>
-                    <TableColumn fx:id="rejectColumn" text="Refuser" prefWidth="90"/>
+                    <TableColumn fx:id="actionColumnStudent" text="Action" prefWidth="160"/>
                 </columns>
             </TableView>
         </TitledPane>

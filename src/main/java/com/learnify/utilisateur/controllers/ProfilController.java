@@ -1,16 +1,17 @@
 package com.learnify.utilisateur.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.DatePicker;  // Importation de DatePicker
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import com.learnify.utilisateur.entities.Utilisateur;
 import com.learnify.utilisateur.services.UtilisateurService;
-import javafx.scene.control.TextFormatter;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class ProfilController {
@@ -56,7 +57,7 @@ public class ProfilController {
 
     @FXML
     private DatePicker dateNaissancePicker;  // Déclaration du DatePicker
-
+    @FXML private Button logoutButton;
     private Utilisateur utilisateur;
     private UtilisateurService utilisateurService;
 
@@ -75,6 +76,9 @@ public class ProfilController {
         // Appliquer un TextFormatter pour n'accepter que des chiffres
         TextFormatter<Integer> formatter = new TextFormatter<>(new IntegerStringConverter());
         telephoneField.setTextFormatter(formatter);
+
+        // Connexion du bouton de déconnexion
+        logoutButton.setOnAction(event -> handleLogout());
     }
 
     private void afficherProfil() {
@@ -137,5 +141,23 @@ public class ProfilController {
 
         // Recharger les informations du profil
         afficherProfil();
+    }
+    @FXML
+    private void handleLogout() {
+        System.out.println("Déconnexion réussie !");
+
+        // Fermer la fenêtre actuelle
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        stage.close();
+
+        // Ouvrir la page d'accueil
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/Authentification.fxml"));
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
+            newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

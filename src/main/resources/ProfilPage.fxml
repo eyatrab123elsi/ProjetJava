@@ -8,59 +8,74 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.ProfilController">
-    <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #f4f4f9; -fx-padding: 30px; -fx-border-radius: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.ProfilController"
+            style="-fx-background-color: linear-gradient(to right, #ffffff, #dfb6ff); -fx-padding: 60;">
+
+    <!-- Le bouton Logout est maintenant positionné en haut à droite -->
+    <Button fx:id="logoutButton" onAction="#handleLogout" style="-fx-background-color: transparent;" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10">
+        <graphic>
+            <ImageView fx:id="logoutIcon"   fitHeight="30" fitWidth="30"  >
+
+                <image>
+                    <Image url="@/image/back_iconn.png"/>
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <!-- Conteneur principal centré avec fond blanc et bordure en dégradé -->
+    <VBox alignment="CENTER" spacing="20.0" prefWidth="500" prefHeight="500" layoutX="500" layoutY="120"
+          style="-fx-background-color: white; -fx-border-width: 3px; -fx-border-color: linear-gradient(to right, #77a3ed, #a973f8); -fx-border-radius: 10px; -fx-padding: 20px;">
+
         <!-- Image de Profil -->
         <StackPane>
-            <ImageView fx:id="imageView" fitHeight="150" fitWidth="150" style="-fx-background-radius: 50%; -fx-border-color: #8e44ad; -fx-border-width: 4px;">
+            <ImageView fx:id="imageView" fitHeight="150" fitWidth="150" style="-fx-background-radius: 50%; -fx-border-color: #17091e; -fx-border-width: 4px;">
                 <image>
-                    <Image url="@image/profil.png" /> <!-- Chemin correct pour l'image -->
+                    <Image url="@image/profill.png" /> <!-- Chemin correct pour l'image -->
                 </image>
             </ImageView>
         </StackPane>
 
         <!-- Titre du profil -->
-        <Label text="Profil de l'utilisateur" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #8e44ad;" />
+        <Label text="Profil de l'utilisateur" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #000000;" />
 
         <!-- Informations de l'utilisateur -->
         <GridPane hgap="15" vgap="10" alignment="CENTER_LEFT">
             <!-- Nom -->
-            <Label text="Nom:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-            <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-            <TextField fx:id="nomField" editable="false" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+            <Label text="Nom:" style="-fx-font-size: 16px; -fx-text-fill: #3f0e59;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <TextField fx:id="nomField" editable="false" style="-fx-font-size: 16px; -fx-text-fill: #000000;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
 
             <!-- Prénom -->
-            <Label text="Prénom:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-            <Label fx:id="prenomLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-            <TextField fx:id="prenomField" editable="false"  style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+            <Label text="Prénom:" style="-fx-font-size: 16px; -fx-text-fill: #3f0e59;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="prenomField" editable="false" style="-fx-font-size: 16px; -fx-text-fill: #000000;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
 
             <!-- Email -->
-            <Label text="Email:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-            <Label fx:id="emailLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-            <TextField fx:id="emailField" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+            <Label text="Email:" style="-fx-font-size: 16px; -fx-text-fill: #3f0e59;" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <TextField fx:id="emailField" style="-fx-font-size: 16px; -fx-text-fill: #000000;" GridPane.rowIndex="2" GridPane.columnIndex="1" />
 
             <!-- Téléphone -->
-            <Label text="Téléphone:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-            <Label fx:id="telephoneLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="3" GridPane.columnIndex="1" />
-            <TextField fx:id="telephoneField" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="3" GridPane.columnIndex="2" />
+            <Label text="Téléphone:" style="-fx-font-size: 16px; -fx-text-fill: #3f0e59;" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <TextField fx:id="telephoneField" style="-fx-font-size: 16px; -fx-text-fill: #000000;" GridPane.rowIndex="3" GridPane.columnIndex="1" />
 
             <!-- Adresse -->
-            <Label text="Adresse:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-            <Label fx:id="adresseLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="4" GridPane.columnIndex="1" />
-            <TextField fx:id="adresseField" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="4" GridPane.columnIndex="2" />
+            <Label text="Adresse:" style="-fx-font-size: 16px; -fx-text-fill: #3f0e59;" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            <TextField fx:id="adresseField" style="-fx-font-size: 16px; -fx-text-fill: #000000;" GridPane.rowIndex="4" GridPane.columnIndex="1" />
 
             <!-- Rôle -->
-            <Label text="Rôle:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-            <Label fx:id="roleLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="5" GridPane.columnIndex="1" />
-            <TextField fx:id="roleField" editable="false"  style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="5" GridPane.columnIndex="2" />
+            <Label text="Rôle:" style="-fx-font-size: 16px; -fx-text-fill: #3f0e59;" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+            <TextField fx:id="roleField" editable="false" style="-fx-font-size: 16px; -fx-text-fill: #000000;" GridPane.rowIndex="5" GridPane.columnIndex="1" />
 
             <!-- Date de naissance -->
-            <Label text="Date de naissance:" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="6" GridPane.columnIndex="0" />
-            <Label fx:id="dateNaissanceLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" GridPane.rowIndex="6" GridPane.columnIndex="1" />
-            <DatePicker fx:id="dateNaissancePicker" style="-fx-font-size: 16px; -fx-text-fill: #5f4b8b;" GridPane.rowIndex="6" GridPane.columnIndex="2" />
+            <Label text="Date de naissance:" style="-fx-font-size: 16px; -fx-text-fill: #3f0e59;" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+            <DatePicker fx:id="dateNaissancePicker" style="-fx-font-size: 16px; -fx-text-fill: #000000;" GridPane.rowIndex="6" GridPane.columnIndex="1" />
         </GridPane>
 
-        <!-- Bouton de mise à jour -->
-        <Button text="Mettre à jour le profil" onAction="#updateProfil" style="-fx-font-size: 16px; -fx-background-color: #8e44ad; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 10px;" />
+        <!-- Bouton de mise à jour avec dégradé -->
+        <Button text="Mettre à jour le profil" onAction="#updateProfil"
+                style="-fx-font-size: 16px;
+                       -fx-background-color: linear-gradient(to right, #a96eff, #d591f8);
+                       -fx-text-fill: white;
+                       -fx-padding: 10px 20px;
+                       -fx-border-radius: 10px;" />
     </VBox>
 </AnchorPane>
