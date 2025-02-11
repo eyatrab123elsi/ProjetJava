@@ -2,7 +2,10 @@ package com.learnify.cours.service;
 
 import com.learnify.cours.entities.Cours;
 import com.learnify.cours.util.DatabaseConnection;
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,87 +13,95 @@ import java.util.List;
 public class CoursServiceImpl implements CoursService {
 
     @Override
-    public Cours getCoursById(Long id) {
-        String query = "SELECT * FROM courses WHERE course_id = ?";
+    public void addCours(Cours cours, File pdfFile) {
+        String query = "INSERT INTO courses (titre, description, duree, pdf_path) VALUES (?, ?, ?, ?)";
+
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            String pdfPath = savePDFToLocal(pdfFile);
 
-            if (resultSet.next()) {
-                return new Cours(
-                        resultSet.getLong("course_id"),
-                        resultSet.getString("titre"),
-                        resultSet.getString("description"),
-                        resultSet.getInt("duree")
-                );
+            statement.setString(1, cours.getTitre());
+            statement.setString(2, cours.getDescription());
+            statement.setInt(3, cours.getDuree());
+            statement.setString(4, pdfPath);
+
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                cours.setId(generatedKeys.getLong(1));
+                cours.setPdfPath(pdfPath);
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching course by ID: " + e.getMessage());
             e.printStackTrace();
         }
-        return null;
+    }
+
+    @Override
+    public void deleteCours(Long id) {
+        String selectQuery = "SELECT pdf_path FROM courses WHERE course_id = ?";
+        String deleteQuery = "DELETE FROM courses WHERE course_id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
+             PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+
+            selectStatement.setLong(1, id);
+            ResultSet resultSet = selectStatement.executeQuery();
+            if (resultSet.next()) {
+                String pdfPath = resultSet.getString("pdf_path");
+                if (pdfPath != null) {
+                    File pdfFile = new File(pdfPath);
+                    if (pdfFile.exists()) {
+                        pdfFile.delete();
+                    }
+                }
+            }
+
+            deleteStatement.setLong(1, id);
+            deleteStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Cours> getAllCours() {
-        String query = "SELECT * FROM courses";
         List<Cours> courses = new ArrayList<>();
+        String query = "SELECT * FROM courses";
 
         try (Connection connection = DatabaseConnection.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
+                int duree = resultSet.getInt("duree");
                 courses.add(new Cours(
-                        resultSet.getLong("course_id"),
                         resultSet.getString("titre"),
                         resultSet.getString("description"),
-                        resultSet.getInt("duree")
+                        duree,
+                        resultSet.getString("pdf_path")
                 ));
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching all courses: " + e.getMessage());
             e.printStackTrace();
         }
-
         return courses;
     }
 
-    @Override
-    public void addCours(Cours cours) {
-        String query = "INSERT INTO courses (titre, description, duree) VALUES (?, ?, ?)";
+    private String savePDFToLocal(File pdfFile) {
+        if (pdfFile == null) return null;
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        File destDir = new File("pdf_lessons");
+        if (!destDir.exists()) destDir.mkdirs();
 
-            statement.setString(1, cours.getTitre());
-            statement.setString(2, cours.getDescription());
-            statement.setInt(3, cours.getDuree());
-            statement.executeUpdate();
-
-            System.out.println("Course added successfully!");
-        } catch (SQLException e) {
-            System.err.println("Error adding course: " + e.getMessage());
+        File destFile = new File(destDir, pdfFile.getName());
+        try {
+            Files.copy(pdfFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return destFile.getAbsolutePath();
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deleteCours(Long course_id) {
-        String query = "DELETE FROM courses WHERE course_id = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setLong(1, course_id);
-            statement.executeUpdate();
-
-            System.out.println("Course deleted successfully!");
-        } catch (SQLException e) {
-            System.err.println("Error deleting course: " + e.getMessage());
-            e.printStackTrace();
+            return null;
         }
     }
 }

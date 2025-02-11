@@ -48,7 +48,7 @@ public class CourseReviewController {
         courseComboBox.setItems(courseList);
 
         // Afficher uniquement le titre dans le ComboBox
-        courseComboBox.setCellFactory(param -> new javafx.scene.control.ListCell<Cours>() {
+        courseComboBox.setCellFactory(_ -> new javafx.scene.control.ListCell<Cours>() {
             @Override
             protected void updateItem(Cours item, boolean empty) {
                 super.updateItem(item, empty);

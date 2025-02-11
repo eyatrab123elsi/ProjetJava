@@ -1,48 +1,87 @@
 package com.learnify.cours.entities;
 
-public class Cours {
-    private Long course_id;
-    private String titre;
-    private String description;
-    private int duree;
+import javafx.beans.property.*;
 
-    public Cours(Long course_id, String titre, String description, int duree) {
-        this.course_id =course_id;
-        this.titre = titre;
-        this.description = description;
-        this.duree = duree;
+public class Cours {
+    private LongProperty id;
+    private StringProperty titre;
+    private StringProperty description;
+    private IntegerProperty duree;
+    private StringProperty pdfPath;
+
+    public Cours() {
+        this.id = new SimpleLongProperty();
+        this.titre = new SimpleStringProperty();
+        this.description = new SimpleStringProperty();
+        this.duree = new SimpleIntegerProperty();
+        this.pdfPath = new SimpleStringProperty();
     }
 
+    public Cours(String titre, String description, int duree, String pdfPath) {
+        this();
+        this.titre.set(titre);
+        this.description.set(description);
+        this.duree.set(duree);
+        this.pdfPath.set(pdfPath);
+    }
 
-    public Long getId() {
-        return course_id;
-    }    
-
-    public void setId(Long course_id) {
-        this.course_id = course_id;
+    public long getId() {
+        return id.get();
     }
 
     public String getTitre() {
-        return titre;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
+        return titre.get();
     }
 
     public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        return description.get();
     }
 
     public int getDuree() {
-        return duree;
+        return duree.get();
+    }
+
+    public String getPdfPath() {
+        return pdfPath.get();
+    }
+
+    public void setId(long id) {
+        this.id.set(id);
+    }
+
+    public void setTitre(String titre) {
+        this.titre.set(titre);
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
     }
 
     public void setDuree(int duree) {
-        this.duree = duree;
+        this.duree.set(duree);
+    }
+
+    public void setPdfPath(String pdfPath) {
+        this.pdfPath.set(pdfPath);
+    }
+
+    public LongProperty idProperty() {
+        return id;
+    }
+
+    public StringProperty titreProperty() {
+        return titre;
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public IntegerProperty dureeProperty() {
+        return duree;
+    }
+
+    public StringProperty pdfPathProperty() {
+        return pdfPath;
     }
 }

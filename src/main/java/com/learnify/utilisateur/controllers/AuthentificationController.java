@@ -1,26 +1,33 @@
 package com.learnify.utilisateur.controllers;
 
 import com.learnify.utilisateur.entities.Utilisateur;
+import com.learnify.utilisateur.services.UtilisateurService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import com.learnify.utilisateur.services.UtilisateurService;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class AuthentificationController {
 
+    // Champs de saisie
     @FXML
     private TextField usernameField;
 
     @FXML
-    private TextField passwordField;
+    private PasswordField passwordField;
+
+    @FXML
+    private TextField visiblePasswordField;
+
+    @FXML
+    private ToggleButton showPasswordToggle;
 
     @FXML
     private Button loginButton;
@@ -29,10 +36,67 @@ public class AuthentificationController {
     private Button registerButton;
 
     @FXML
-    private Button forgotPasswordButton;
+    private Hyperlink forgotPasswordLink;
 
-    // Remplacez ou complétez la méthode existante handleLoginButtonAction par ce code
+    @FXML
+    private ImageView backButton;
 
+    // Images pour l'icône d'œil
+    private final Image eyeOpenImage;
+    private final Image eyeClosedImage;
+
+    // Constructeur pour charger les images
+    public AuthentificationController() {
+        this.eyeOpenImage = loadImage("/utilisateur/image/eye_open.png");
+        this.eyeClosedImage = loadImage("/utilisateur/image/eye_closed.png");
+    }
+
+    // Méthode pour charger une image de manière sécurisée
+    private Image loadImage(String path) {
+        try (InputStream inputStream = getClass().getResourceAsStream(path)) {
+            if (inputStream == null) {
+                throw new IllegalArgumentException("Image not found: " + path);
+            }
+            return new Image(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load image: " + path, e);
+        }
+    }
+
+    // Initialisation du contrôleur
+    @FXML
+    public void initialize() {
+        // Masquer le TextField visiblePasswordField par défaut
+        visiblePasswordField.setVisible(false);
+        visiblePasswordField.setManaged(false);
+
+        // Gérer l'action du ToggleButton pour afficher/masquer le mot de passe
+        showPasswordToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                // Afficher le mot de passe en texte clair
+                visiblePasswordField.setText(passwordField.getText());
+                visiblePasswordField.setVisible(true);
+                visiblePasswordField.setManaged(true);
+                passwordField.setVisible(false);
+                passwordField.setManaged(false);
+
+                // Changer l'icône pour l'œil ouvert
+                ((ImageView) showPasswordToggle.getGraphic()).setImage(eyeOpenImage);
+            } else {
+                // Masquer le mot de passe
+                passwordField.setText(visiblePasswordField.getText());
+                passwordField.setVisible(true);
+                passwordField.setManaged(true);
+                visiblePasswordField.setVisible(false);
+                visiblePasswordField.setManaged(false);
+
+                // Changer l'icône pour l'œil fermé
+                ((ImageView) showPasswordToggle.getGraphic()).setImage(eyeClosedImage);
+            }
+        });
+    }
+
+    // Méthode pour gérer la connexion
     @FXML
     private void handleLoginButtonAction() {
         String email = usernameField.getText();
@@ -60,10 +124,11 @@ public class AuthentificationController {
         }
     }
 
+    // Redirection vers la page d'administration
     private void redirectToAdminPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/AdminPage.fxml"));
-            AnchorPane root = loader.load();
+            Parent root = loader.load();
             Scene scene = new Scene(root);
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
@@ -74,21 +139,18 @@ public class AuthentificationController {
         }
     }
 
+    // Redirection vers la page de l'utilisateur (étudiant/enseignant)
     private void redirectToUserPage(String role) {
         try {
-            // Récupérer l'utilisateur authentifié à partir du service
             UtilisateurService utilisateurService = new UtilisateurService();
-            Utilisateur utilisateur = utilisateurService.getUtilisateurByEmail(usernameField.getText()); // Utilisez la méthode pour récupérer l'utilisateur par email
+            Utilisateur utilisateur = utilisateurService.getUtilisateurByEmail(usernameField.getText());
 
-            // Charger la page de profil et obtenir le contrôleur
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/ProfilPage.fxml"));
-            AnchorPane root = loader.load();
+            Parent root = loader.load();
             ProfilController profilController = loader.getController();
 
-            // Passer l'utilisateur au contrôleur de la page de profil
             profilController.setUtilisateur(utilisateur);
 
-            // Créer la scène et changer de fenêtre
             Scene scene = new Scene(root);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(scene);
@@ -98,20 +160,21 @@ public class AuthentificationController {
         }
     }
 
-
+    // Affichage d'une alerte
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
+    // Redirection vers la page d'inscription
     @FXML
     private void handleRegisterButtonAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Inscription.fxml"));
-            AnchorPane root = loader.load();
+            Parent root = loader.load();
             Scene scene = new Scene(root);
 
             Stage stage = (Stage) registerButton.getScene().getWindow();
@@ -122,16 +185,37 @@ public class AuthentificationController {
         }
     }
 
+    // Redirection vers la page de réinitialisation du mot de passe
     @FXML
     private void handleForgotPasswordButtonAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/PasswordReset.fxml"));
-            AnchorPane root = loader.load();
+            Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            Stage stage = (Stage) forgotPasswordButton.getScene().getWindow();
+            if (forgotPasswordLink != null) {
+                Stage stage = (Stage) forgotPasswordLink.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setTitle("Demande de réinitialisation du mot de passe");
+            } else {
+                System.out.println("forgotPasswordLink is null!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Redirection vers la page d'accueil
+    @FXML
+    private void handleBackToAccueil() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Accueil.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Réinitialisation du mot de passe");
+            stage.setTitle("Accueil");
         } catch (IOException e) {
             e.printStackTrace();
         }

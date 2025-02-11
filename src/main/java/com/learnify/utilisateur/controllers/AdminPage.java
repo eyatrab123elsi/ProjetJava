@@ -1,340 +1,360 @@
 package com.learnify.utilisateur.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import com.learnify.utilisateur.entities.Utilisateur;
 import com.learnify.utilisateur.services.UtilisateurService;
-import javafx.beans.property.SimpleStringProperty; // Importation ajoutée
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.stage.Stage;
 
-import java.util.List;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class AdminPage {
-
-    @FXML
-    private Label welcomeLabel;
-
-    @FXML
-    private TableView<Utilisateur> teachersTable;
-    @FXML
-    private TableColumn<Utilisateur, String> nameColumn;
-    @FXML
-    private TableColumn<Utilisateur, String> emailColumn;
-    @FXML
-    private TableColumn<Utilisateur, Void> editColumn;
-    @FXML
-    private TableColumn<Utilisateur, Void> deleteColumn;
-
-    @FXML
-    private TableView<Utilisateur> studentsTable;
-    @FXML
-    private TableColumn<Utilisateur, String> nameColumnStudent;
-    @FXML
-    private TableColumn<Utilisateur, String> emailColumnStudent;
-    @FXML
-    private TableColumn<Utilisateur, Void> editColumnStudent;
-    @FXML
-    private TableColumn<Utilisateur, Void> deleteColumnStudent;
-
-    @FXML
-    private TableView<Utilisateur> pendingValidationTable;
-    @FXML
-    private TableColumn<Utilisateur, String> nameColumnPending;
-    @FXML
-    private TableColumn<Utilisateur, String> emailColumnPending;
-    @FXML
-    private TableColumn<Utilisateur, String> roleColumnPending;
-    @FXML
-    private TableColumn<Utilisateur, Void> validateColumn;
-    @FXML
-    private TableColumn<Utilisateur, Void> rejectColumn;
-
-    @FXML
-    private ComboBox<String> filterRoleComboBox;
+    @FXML private Label welcomeLabel;
+    @FXML private Button logoutButton;
+    @FXML private TableView<Utilisateur> teachersTable;
+    @FXML private TableView<Utilisateur> studentsTable;
+    @FXML private TableColumn<Utilisateur, String> nameColumn, emailColumn, prenomColumn, telephoneColumn, adresseColumn, dateNaissanceColumn, roleColumn;
+    @FXML private TableColumn<Utilisateur, String> nameColumnStudent, emailColumnStudent, prenomColumnStudent, telephoneColumnStudent, adresseColumnStudent, dateNaissanceColumnStudent, roleColumnStudent;
+    @FXML private TableColumn<Utilisateur, Void> actionColumn, actionColumnStudent;
+    @FXML private ComboBox<String> filterRoleComboBox;
 
     private ObservableList<Utilisateur> teachersData = FXCollections.observableArrayList();
     private ObservableList<Utilisateur> studentsData = FXCollections.observableArrayList();
-    private ObservableList<Utilisateur> pendingValidationData = FXCollections.observableArrayList();
-    private UtilisateurService utilisateurService = new UtilisateurService();
+    private final UtilisateurService utilisateurService = new UtilisateurService();
 
     @FXML
     public void initialize() {
-        welcomeLabel.setText("Bienvenue sur la page d'administration !");
+        welcomeLabel.setText("Welcome to the administration page !");
 
-        // Configuration de la table des enseignants
-        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
-        emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
+        // Configuration des colonnes
+        configureColumns(teachersTable, nameColumn, emailColumn, prenomColumn, telephoneColumn, adresseColumn, dateNaissanceColumn, roleColumn);
+        configureColumns(studentsTable, nameColumnStudent, emailColumnStudent, prenomColumnStudent, telephoneColumnStudent, adresseColumnStudent, dateNaissanceColumnStudent, roleColumnStudent);
 
-        // Ajout du bouton "Editer" pour les enseignants
-        editColumn.setCellFactory(param -> new TableCell<Utilisateur, Void>() {
-            private final Button editButton = new Button("Editer");
+        // Configuration des colonnes d'action avec icônes
+        configureActionColumn(actionColumn, this::handleEditUser, this::handleDeleteUser, this::handleValidateUser);
+        configureActionColumn(actionColumnStudent, this::handleEditUser, this::handleDeleteUser, this::handleValidateUser);
 
-            {
-                editButton.setOnAction(event -> handleEditTeacher(getTableRow().getItem()));
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!empty) {
-                    setGraphic(editButton);
-                } else {
-                    setGraphic(null);
-                }
-            }
-        });
-
-        // Ajout du bouton "Supprimer" pour les enseignants
-        deleteColumn.setCellFactory(param -> new TableCell<Utilisateur, Void>() {
-            private final Button deleteButton = new Button("Supprimer");
-
-            {
-                deleteButton.setOnAction(event -> handleDeleteTeacher(getTableRow().getItem()));
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!empty) {
-                    setGraphic(deleteButton);
-                } else {
-                    setGraphic(null);
-                }
-            }
-        });
-
-        // Configuration de la table des étudiants
-        nameColumnStudent.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
-        emailColumnStudent.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
-
-        // Ajout du bouton "Editer" pour les étudiants
-        editColumnStudent.setCellFactory(param -> new TableCell<Utilisateur, Void>() {
-            private final Button editButton = new Button("Editer");
-
-            {
-                editButton.setOnAction(event -> handleEditStudent(getTableRow().getItem()));
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!empty) {
-                    setGraphic(editButton);
-                } else {
-                    setGraphic(null);
-                }
-            }
-        });
-
-        // Ajout du bouton "Supprimer" pour les étudiants
-        deleteColumnStudent.setCellFactory(param -> new TableCell<Utilisateur, Void>() {
-            private final Button deleteButton = new Button("Supprimer");
-
-            {
-                deleteButton.setOnAction(event -> handleDeleteStudent(getTableRow().getItem()));
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!empty) {
-                    setGraphic(deleteButton);
-                } else {
-                    setGraphic(null);
-                }
-            }
-        });
-
-        // Configuration de la table des utilisateurs en attente de validation
-        nameColumnPending.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
-        emailColumnPending.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
-        roleColumnPending.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRole()));
-
-        // Ajout du bouton "Valider"
-        validateColumn.setCellFactory(param -> new TableCell<Utilisateur, Void>() {
-            private final Button validateButton = new Button("Valider");
-
-            {
-                validateButton.setOnAction(event -> handleValidateUser(getTableRow().getItem()));
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!empty) {
-                    setGraphic(validateButton);
-                } else {
-                    setGraphic(null);
-                }
-            }
-        });
-
-        // Ajout du bouton "Refuser"
-        rejectColumn.setCellFactory(param -> new TableCell<Utilisateur, Void>() {
-            private final Button rejectButton = new Button("Refuser");
-
-            {
-                rejectButton.setOnAction(event -> handleRejectUser(getTableRow().getItem()));
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!empty) {
-                    setGraphic(rejectButton);
-                } else {
-                    setGraphic(null);
-                }
-            }
-        });
-
-        // Charger les données des utilisateurs
+        // Chargement des données
         loadUserData();
 
         // Configuration de la ComboBox pour filtrer les rôles
         filterRoleComboBox.getItems().addAll("Tous", "Étudiant", "Enseignant");
-        filterRoleComboBox.setOnAction(event -> {
-            String selectedRole = filterRoleComboBox.getValue();
-            List<Utilisateur> filteredList = utilisateurService.getUtilisateursByRole(selectedRole);
-            studentsTable.setItems(FXCollections.observableList(filteredList));
-            teachersTable.setItems(FXCollections.observableList(filteredList));
-        });
+        filterRoleComboBox.setOnAction(event -> filterUsersByRole());
 
-        // Charger les utilisateurs en attente de validation
-        loadPendingValidationData();
+        // Connexion du bouton de déconnexion
+        logoutButton.setOnAction(event -> handleLogout());
+
+        // Appliquer l'alternance des couleurs des lignes
+        applyRowColorAlternation(teachersTable);
+        applyRowColorAlternation(studentsTable);
+    }
+
+    @FXML
+    private void handleLogout() {
+        System.out.println("Déconnexion réussie !");
+
+        // Fermer la fenêtre actuelle
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        stage.close();
+
+        // Ouvrir la page d'authentification
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Authentification.fxml"));
+            Parent root = loader.load();
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
+            newStage.setTitle("Authentification");
+            newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Erreur", "Impossible de charger la page d'authentification.");
+        }
+    }
+
+    private void configureColumns(TableView<Utilisateur> table, TableColumn<Utilisateur, String> nameColumn, TableColumn<Utilisateur, String> emailColumn, TableColumn<Utilisateur, String> prenomColumn, TableColumn<Utilisateur, String> telephoneColumn, TableColumn<Utilisateur, String> adresseColumn, TableColumn<Utilisateur, String> dateNaissanceColumn, TableColumn<Utilisateur, String> roleColumn) {
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
+        prenomColumn.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
+        emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
+        telephoneColumn.setCellValueFactory(cellData -> cellData.getValue().telephoneProperty());
+        adresseColumn.setCellValueFactory(cellData -> cellData.getValue().adresseProperty());
+        dateNaissanceColumn.setCellValueFactory(cellData -> {
+            LocalDate date = cellData.getValue().getDateNaissance();
+            String formattedDate = (date != null) ? date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "Non défini";
+            return new SimpleStringProperty(formattedDate);
+        });
+        roleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRole()));
+    }
+
+    private void configureActionColumn(TableColumn<Utilisateur, Void> column, UserActionHandler editHandler, UserActionHandler deleteHandler, UserActionHandler validateHandler) {
+        column.setCellFactory(param -> new TableCell<>() {
+            private final Button editButton = new Button();
+            private final Button deleteButton = new Button();
+            private final Button validateButton = new Button();
+
+            {
+                // Charger les icônes
+                Image editIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/edit11.png"));
+                Image deleteIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/1.png"));
+                Image validateIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/validate1.png"));
+
+                // Redimensionner les icônes
+                ImageView editView = new ImageView(editIcon);
+                editView.setFitWidth(30);
+                editView.setFitHeight(30);
+
+                ImageView deleteView = new ImageView(deleteIcon);
+                deleteView.setFitWidth(26);
+                deleteView.setFitHeight(26);
+
+                ImageView validateView = new ImageView(validateIcon);
+                validateView.setFitWidth(26);
+                validateView.setFitHeight(26);
+
+                // Associer les icônes aux boutons
+                editButton.setGraphic(editView);
+                deleteButton.setGraphic(deleteView);
+                validateButton.setGraphic(validateView);
+
+                // Style des boutons (optionnel)
+                editButton.setStyle("-fx-background-color: transparent;");
+                deleteButton.setStyle("-fx-background-color: transparent;");
+                validateButton.setStyle("-fx-background-color: transparent;");
+
+                // Actions des boutons
+                editButton.setOnAction(event -> {
+                    Utilisateur user = getTableRow().getItem();
+                    if (user != null) {
+                        editHandler.handle(user);
+                    }
+                });
+
+                deleteButton.setOnAction(event -> {
+                    Utilisateur user = getTableRow().getItem();
+                    if (user != null) {
+                        deleteHandler.handle(user);
+                    }
+                });
+
+                validateButton.setOnAction(event -> {
+                    Utilisateur user = getTableRow().getItem();
+                    if (user != null) {
+                        validateHandler.handle(user);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Utilisateur user = getTableRow().getItem();
+                    if (user != null && user.isEstValide()) {
+                        // Si l'utilisateur est déjà validé, ne pas afficher le bouton "Valider"
+                        HBox hbox = new HBox(3, editButton, deleteButton);
+                        setGraphic(hbox);
+                    } else {
+                        HBox hbox = new HBox(3, editButton, deleteButton, validateButton);
+                        setGraphic(hbox);
+                    }
+                }
+            }
+        });
     }
 
     private void loadUserData() {
-        List<Utilisateur> teachers = utilisateurService.getUtilisateursByRole("Enseignant");
-        List<Utilisateur> students = utilisateurService.getUtilisateursByRole("Étudiant");
-
-        teachersData.clear();
-        studentsData.clear();
-        teachersData.addAll(teachers);
-        studentsData.addAll(students);
-
+        teachersData.setAll(utilisateurService.getUtilisateursByRole("Enseignant"));
+        studentsData.setAll(utilisateurService.getUtilisateursByRole("Étudiant"));
         teachersTable.setItems(teachersData);
         studentsTable.setItems(studentsData);
     }
 
-    private void loadPendingValidationData() {
-        List<Utilisateur> pendingUsers = utilisateurService.getUtilisateursNonValides();
-        pendingValidationData.clear();
-        pendingValidationData.addAll(pendingUsers);
-        pendingValidationTable.setItems(pendingValidationData);
+    private void filterUsersByRole() {
+        String selectedRole = filterRoleComboBox.getValue();
+        teachersTable.setVisible(selectedRole.equals("Tous") || selectedRole.equals("Enseignant"));
+        studentsTable.setVisible(selectedRole.equals("Tous") || selectedRole.equals("Étudiant"));
     }
 
-    // Gestion de l'édition d'un enseignant
-    public void handleEditTeacher(Utilisateur teacher) {
-        TextInputDialog dialog = new TextInputDialog(teacher.getNom());
-        dialog.setTitle("Modifier l'enseignant");
-        dialog.setHeaderText("Modifier les informations de l'enseignant");
-        dialog.setContentText("Nouveau nom:");
-
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(nouveauNom -> {
-            boolean success = utilisateurService.mettreAJourUtilisateur(teacher.getEmail(), nouveauNom, teacher.getEmail());
+    private void handleEditUser(Utilisateur user) {
+        Dialog<Utilisateur> dialog = createEditUserDialog(user);
+        dialog.showAndWait().ifPresent(updatedUser -> {
+            boolean success = utilisateurService.mettreAJourUtilisateur(updatedUser);
             if (success) {
-                loadUserData();
+                loadUserData(); // Recharger les données après modification
+                showSuccessAlert("Succès", "L'utilisateur a été modifié avec succès !");
             } else {
-                showErrorAlert("Échec de la mise à jour", "Impossible de mettre à jour l'enseignant.");
+                showErrorAlert("Échec de la mise à jour", "Impossible de mettre à jour l'utilisateur.");
             }
         });
     }
 
-    // Gestion de la suppression d'un enseignant
-    public void handleDeleteTeacher(Utilisateur teacher) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation de suppression");
-        alert.setHeaderText("Supprimer l'enseignant");
-        alert.setContentText("Êtes-vous sûr de vouloir supprimer cet enseignant ?");
+    private Dialog<Utilisateur> createEditUserDialog(Utilisateur user) {
+        Dialog<Utilisateur> dialog = new Dialog<>();
+        dialog.setTitle("Modifier l'utilisateur");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            boolean success = utilisateurService.supprimerUtilisateur(teacher.getEmail());
-            if (success) {
-                loadUserData();
-            } else {
-                showErrorAlert("Échec de la suppression", "Impossible de supprimer l'enseignant.");
+        // Ajouter un titre avec texte en gras
+        dialog.setHeaderText(null);
+        Label headerLabel = new Label("Modifier les informations de l'utilisateur");
+        headerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+        dialog.getDialogPane().setHeader(headerLabel);
+
+        ButtonType saveButtonType = new ButtonType("Sauvegarder", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        // Appliquer un fond dégradé aux boutons
+        Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
+        saveButton.setStyle("-fx-background-color: linear-gradient(to right, #c999ed, #8bbbf8); -fx-text-fill: #000000;");
+
+        Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setStyle("-fx-background-color: linear-gradient(to right, #c999ed, #8bbbf8); -fx-text-fill: #000000;");
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        // Champs de texte avec bordure violette
+        TextField nomField = new TextField(user.getNom());
+        nomField.setStyle("-fx-border-color: #8d97f6;");
+
+        TextField prenomField = new TextField(user.getPrenom());
+        prenomField.setStyle("-fx-border-color: #8d97f6;");
+
+        TextField emailField = new TextField(user.getEmail());
+        emailField.setStyle("-fx-border-color: #8d97f6;");
+
+        TextField telephoneField = new TextField(user.getTelephone());
+        telephoneField.setStyle("-fx-border-color: #8d97f6;");
+
+        TextField adresseField = new TextField(user.getAdresse());
+        adresseField.setStyle("-fx-border-color: #8d97f6;");
+
+        DatePicker dateNaissancePicker = new DatePicker(user.getDateNaissance());
+
+        // Ajouter les champs Nom et Prénom
+        grid.add(new Label("Nom:"), 0, 0);
+        grid.add(nomField, 1, 0);
+
+        grid.add(new Label("Prénom:"), 0, 1);
+        grid.add(prenomField, 1, 1);
+
+        grid.add(new Label("Email:"), 0, 2);
+        grid.add(emailField, 1, 2);
+
+        grid.add(new Label("Téléphone:"), 0, 3);
+        grid.add(telephoneField, 1, 3);
+
+        grid.add(new Label("Adresse:"), 0, 4);
+        grid.add(adresseField, 1, 4);
+
+        grid.add(new Label("Date de naissance:"), 0, 5);
+        grid.add(dateNaissancePicker, 1, 5);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                user.setNom(nomField.getText());
+                user.setPrenom(prenomField.getText());
+                user.setEmail(emailField.getText());
+                user.setTelephone(telephoneField.getText());
+                user.setAdresse(adresseField.getText());
+                user.setDateNaissance(dateNaissancePicker.getValue());
+                return user;
             }
-        }
-    }
-
-    // Gestion de l'édition d'un étudiant
-    public void handleEditStudent(Utilisateur student) {
-        TextInputDialog dialog = new TextInputDialog(student.getNom());
-        dialog.setTitle("Modifier l'étudiant");
-        dialog.setHeaderText("Modifier les informations de l'étudiant");
-        dialog.setContentText("Nouveau nom:");
-
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(nouveauNom -> {
-            boolean success = utilisateurService.mettreAJourUtilisateur(student.getEmail(), nouveauNom, student.getEmail());
-            if (success) {
-                loadUserData();
-            } else {
-                showErrorAlert("Échec de la mise à jour", "Impossible de mettre à jour l'étudiant.");
-            }
+            return null;
         });
+
+        return dialog;
     }
 
-    // Gestion de la suppression d'un étudiant
-    public void handleDeleteStudent(Utilisateur student) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation de suppression");
-        alert.setHeaderText("Supprimer l'étudiant");
-        alert.setContentText("Êtes-vous sûr de vouloir supprimer cet étudiant ?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            boolean success = utilisateurService.supprimerUtilisateur(student.getEmail());
-            if (success) {
-                loadUserData();
-            } else {
-                showErrorAlert("Échec de la suppression", "Impossible de supprimer l'étudiant.");
-            }
-        }
+    private void handleDeleteUser(Utilisateur user) {
+        showConfirmationDialog("Supprimer l'utilisateur", "Êtes-vous sûr de vouloir supprimer cet utilisateur ?")
+                .ifPresent(buttonType -> {
+                    if (buttonType == ButtonType.OK) {
+                        boolean success = utilisateurService.supprimerUtilisateur(user.getEmail());
+                        if (success) {
+                            loadUserData(); // Recharger les données après suppression
+                            showSuccessAlert("Succès", "L'utilisateur a été supprimé avec succès !");
+                        } else {
+                            showErrorAlert("Échec de la suppression", "Impossible de supprimer l'utilisateur.");
+                        }
+                    }
+                });
     }
 
-    // Gestion de la validation d'un utilisateur
     private void handleValidateUser(Utilisateur user) {
         boolean success = utilisateurService.validerUtilisateur(user.getEmail());
         if (success) {
-            loadPendingValidationData(); // Recharger les données après validation
-            showSuccessAlert("Utilisateur validé", "L'utilisateur a été validé avec succès.");
+            loadUserData(); // Recharger les données après validation
+            showSuccessAlert("Succès", "L'utilisateur a été validé avec succès !");
         } else {
-            showErrorAlert("Erreur", "Impossible de valider l'utilisateur.");
+            showErrorAlert("Échec de la validation", "Impossible de valider l'utilisateur.");
         }
     }
 
-    // Gestion du refus d'un utilisateur
-    private void handleRejectUser(Utilisateur user) {
-        boolean success = utilisateurService.supprimerUtilisateur(user.getEmail());
-        if (success) {
-            loadPendingValidationData(); // Recharger les données après refus
-            showSuccessAlert("Utilisateur refusé", "L'utilisateur a été refusé et supprimé.");
-        } else {
-            showErrorAlert("Erreur", "Impossible de refuser l'utilisateur.");
-        }
-    }
-
-    // Méthode pour afficher une alerte de succès
-    private void showSuccessAlert(String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    // Méthode pour afficher une alerte d'erreur
-    private void showErrorAlert(String header, String content) {
+    private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(header);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void showSuccessAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private Optional<ButtonType> showConfirmationDialog(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        return alert.showAndWait();
+    }
+
+    private void applyRowColorAlternation(TableView<Utilisateur> table) {
+        table.setRowFactory(tv -> new TableRow<>() {
+            @Override
+            protected void updateItem(Utilisateur item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setBackground(Background.EMPTY);
+                } else {
+                    if (getIndex() % 2 == 0) {
+                        setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, null)));
+                    } else {
+                        setBackground(new Background(new BackgroundFill(Color.rgb(204, 204, 204), CornerRadii.EMPTY, null)));
+                    }
+                }
+            }
+        });
+    }
+
+    @FunctionalInterface
+    private interface UserActionHandler {
+        void handle(Utilisateur user);
     }
 }

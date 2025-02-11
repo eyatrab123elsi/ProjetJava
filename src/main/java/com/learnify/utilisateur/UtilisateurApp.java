@@ -4,8 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import com.learnify.utilisateur.utils.DBConnection;
 
@@ -18,25 +18,36 @@ public class UtilisateurApp extends Application {
         try {
             // Tester la connexion à la base de données
             Connection conn = DBConnection.getConnection();
-            if (conn != null) {
-                // Connexion réussie
-                System.out.println("Connexion réussie à la base de données !");
-            } else {
-                // Connexion échouée
+            if (conn == null) {
                 showErrorMessage("Erreur de connexion", "Impossible de se connecter à la base de données.");
-                return;  // Arrêter le chargement de l'interface si la connexion échoue
+                return;
             }
 
-            // Charger le fichier FXML pour l'écran d'authentification
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/utilisateur/Authentification.fxml"));
+            // Tester le chargement de l'image
+            try {
+                Image testImage = new Image(getClass().getResource("/utilisateur/image/e22.png").toExternalForm());
+                if (testImage.isError()) {
+                    System.out.println("Erreur lors du chargement de l'image !");
+                    showErrorMessage("Erreur d'image", "Impossible de charger l'image : /image/e22.png");
+                    return;
+                } else {
+                    System.out.println("Image chargée avec succès !");
+                }
+            } catch (Exception e) {
+                System.out.println("Exception lors du chargement de l'image : " + e.getMessage());
+                e.printStackTrace();
+                showErrorMessage("Erreur critique", "Une exception s'est produite lors du chargement de l'image.");
+                return;
+            }
 
-            AnchorPane root = loader.load(); // Charge le FXML
+            // Charger l'interface d'accueil
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Accueil.fxml"));
+            StackPane root = loader.load(); // Utiliser StackPane comme racine pour correspondre au FXML
 
             // Définir la scène principale
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 1200, 800); // Définir la taille de la fenêtre
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Application Learning Platform");
+            primaryStage.setTitle("Accueil - Learning Platform");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +55,7 @@ public class UtilisateurApp extends Application {
     }
 
     private void showErrorMessage(String title, String message) {
-        Alert alert = new Alert(AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

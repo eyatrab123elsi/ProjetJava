@@ -7,25 +7,50 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane alignment="CENTER" hgap="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.quiz.controller.EditQuestionController">
+<GridPane alignment="CENTER" hgap="15.0" vgap="15.0" 
+          xmlns="http://javafx.com/javafx/23" 
+          xmlns:fx="http://javafx.com/fxml/1" 
+          fx:controller="com.learnify.quiz.controller.EditQuestionController"
+          prefWidth="600" prefHeight="400">
+
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets bottom="20" left="20" right="20" top="20"/>
     </padding>
-   <children>
-        <Label styleClass="label" text="Select Question:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <ComboBox fx:id="questionComboBox" styleClass="combo-box" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Label styleClass="label" text="Question Text:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="questionTextField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label styleClass="label" text="Option A:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="optionATextField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Label styleClass="label" text="Option B:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="optionBTextField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <Label styleClass="label" text="Option C:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <TextField fx:id="optionCTextField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <Label styleClass="label" text="Option D:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-        <TextField fx:id="optionDTextField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-        <Label styleClass="label" text="Correct Option:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-        <ComboBox fx:id="correctAnswerComboBox" styleClass="combo-box" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <Button mnemonicParsing="false" onAction="#handleSaveQuestion" styleClass="button" text="Save Question" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-   </children>
+
+    <!-- Row 0: Quiz Selection -->
+    <Label text="Select Quiz:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <ComboBox fx:id="quizComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+    <!-- Row 1: Question Selection -->
+    <Label text="Select Question:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <ComboBox fx:id="questionComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <!-- Row 2: Question Text -->
+    <Label text="Question Text:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField fx:id="questionTextField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <!-- Row 3: Option A -->
+    <Label text="Option A:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="optionATextField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <!-- Row 4: Option B -->
+    <Label text="Option B:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <TextField fx:id="optionBTextField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <!-- Row 5: Option C -->
+    <Label text="Option C:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <TextField fx:id="optionCTextField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <!-- Row 6: Option D -->
+    <Label text="Option D:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <TextField fx:id="optionDTextField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+    <!-- Row 7: Correct Answer -->
+    <Label text="Correct Option:" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+    <ComboBox fx:id="correctAnswerComboBox" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+    <!-- Row 8: Save Button -->
+    <Button mnemonicParsing="false" onAction="#handleSaveQuestion" 
+            text="Save Changes" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
 </GridPane>
