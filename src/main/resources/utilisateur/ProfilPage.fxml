@@ -17,7 +17,7 @@
             <ImageView fx:id="logoutIcon"   fitHeight="30" fitWidth="30"  >
 
                 <image>
-                    <Image url="@/image/back_iconn.png"/>
+                    <Image url="@/utilisateur/image/back_iconn.png"/>
                 </image>
             </ImageView>
         </graphic>
@@ -31,7 +31,7 @@
         <StackPane>
             <ImageView fx:id="imageView" fitHeight="150" fitWidth="150" style="-fx-background-radius: 50%; -fx-border-color: #17091e; -fx-border-width: 4px;">
                 <image>
-                    <Image url="@image/profill.png" /> <!-- Chemin correct pour l'image -->
+                    <Image url="@/utilisateur/image/profill.png" /> <!-- Chemin correct pour l'image -->
                 </image>
             </ImageView>
         </StackPane>

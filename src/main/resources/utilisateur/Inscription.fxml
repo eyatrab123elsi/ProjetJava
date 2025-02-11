@@ -70,7 +70,7 @@
                     style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;">
                 <graphic>
                     <ImageView fitWidth="24" fitHeight="24">
-                        <Image url="@/image/back_icon.png"/> <!-- Remplacez par le chemin de votre icône -->
+                        <Image url="@/utilisateur/image/back_icon.png"/> <!-- Remplacez par le chemin de votre icône -->
                     </ImageView>
                 </graphic>
                 <tooltip>

@@ -14,7 +14,7 @@
                fitWidth="30" fitHeight="30"
                onMouseClicked="#handleBackToAccueil"
                style="-fx-cursor: hand;">
-        <Image url="image/back_iconn.png"/>
+        <Image url="/utilisateur/image/back_iconn.png"/>
     </ImageView>
 
     <!-- Conteneur principal centré -->
@@ -40,7 +40,7 @@
             <VBox spacing="5.0" alignment="CENTER">
                 <HBox spacing="10.0" alignment="CENTER">
                     <ImageView fitWidth="20" fitHeight="20">
-                        <Image url="image/email_iconn.png"/>
+                        <Image url="/utilisateur/image/email_iconn.png"/>
                     </ImageView>
                     <TextField fx:id="usernameField" promptText="E-mail"
                                style="-fx-background-radius: 20; -fx-padding: 8; -fx-pref-width: 250px;"/>
@@ -53,7 +53,7 @@
             <!-- Champ Mot de passe -->
             <HBox spacing="5.0" alignment="CENTER">
                 <ImageView fitWidth="20" fitHeight="20">
-                    <Image url="@image/password-icon.png"/>
+                    <Image url="@/utilisateur/image/password-icon.png"/>
                 </ImageView>
                 <HBox style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #cccccc; -fx-padding: 5;">
                     <!-- PasswordField (masqué par défaut) -->
@@ -66,7 +66,7 @@
                     <ToggleButton fx:id="showPasswordToggle" style="-fx-background-color: transparent; -fx-padding: 0;">
                         <graphic>
                             <ImageView fitWidth="20" fitHeight="20">
-                                <Image url="@image/eye_closed.png"/> <!-- Icône d'œil fermé par défaut -->
+                                <Image url="@/utilisateur/image/eye_closed.png"/> <!-- Icône d'œil fermé par défaut -->
                             </ImageView>
                         </graphic>
                     </ToggleButton>

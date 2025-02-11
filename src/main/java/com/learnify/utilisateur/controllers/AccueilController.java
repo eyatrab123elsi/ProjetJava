@@ -91,7 +91,7 @@ public class AccueilController {
         System.out.println("Bouton Sign Up cliqué");
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Inscription.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Inscription.fxml"));
             Parent root = loader.load();
 
             Platform.runLater(() -> {
@@ -112,7 +112,7 @@ public class AccueilController {
      */
     @FXML
     public void handleConnexion() {
-        loadWindow("/Authentification.fxml", "Connexion");
+        loadWindow("/utilisateur/Authentification.fxml", "Connexion");
     }
 
     /**
