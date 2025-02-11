@@ -47,8 +47,8 @@ public class AuthentificationController {
 
     // Constructeur pour charger les images
     public AuthentificationController() {
-        this.eyeOpenImage = loadImage("/image/eye_open.png");
-        this.eyeClosedImage = loadImage("/image/eye_closed.png");
+        this.eyeOpenImage = loadImage("/utilisateur/image/eye_open.png");
+        this.eyeClosedImage = loadImage("/utilisateur/image/eye_closed.png");
     }
 
     // Méthode pour charger une image de manière sécurisée
@@ -127,7 +127,7 @@ public class AuthentificationController {
     // Redirection vers la page d'administration
     private void redirectToAdminPage() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AdminPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/AdminPage.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -145,7 +145,7 @@ public class AuthentificationController {
             UtilisateurService utilisateurService = new UtilisateurService();
             Utilisateur utilisateur = utilisateurService.getUtilisateurByEmail(usernameField.getText());
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfilPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/ProfilPage.fxml"));
             Parent root = loader.load();
             ProfilController profilController = loader.getController();
 
@@ -173,7 +173,7 @@ public class AuthentificationController {
     @FXML
     private void handleRegisterButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Inscription.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Inscription.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -189,7 +189,7 @@ public class AuthentificationController {
     @FXML
     private void handleForgotPasswordButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PasswordReset.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/PasswordReset.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -209,7 +209,7 @@ public class AuthentificationController {
     @FXML
     private void handleBackToAccueil() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Accueil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Accueil.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 

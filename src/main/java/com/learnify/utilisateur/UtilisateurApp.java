@@ -1,4 +1,4 @@
-package org.example;
+package com.learnify.utilisateur;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ import com.learnify.utilisateur.utils.DBConnection;
 
 import java.sql.Connection;
 
-public class MainApp extends Application {
+public class UtilisateurApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -25,7 +25,7 @@ public class MainApp extends Application {
 
             // Tester le chargement de l'image
             try {
-                Image testImage = new Image(getClass().getResource("/image/e22.png").toExternalForm());
+                Image testImage = new Image(getClass().getResource("/utilisateur/image/e22.png").toExternalForm());
                 if (testImage.isError()) {
                     System.out.println("Erreur lors du chargement de l'image !");
                     showErrorMessage("Erreur d'image", "Impossible de charger l'image : /image/e22.png");
@@ -41,7 +41,7 @@ public class MainApp extends Application {
             }
 
             // Charger l'interface d'accueil
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Accueil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Accueil.fxml"));
             StackPane root = loader.load(); // Utiliser StackPane comme racine pour correspondre au FXML
 
             // Définir la scène principale

@@ -53,7 +53,7 @@ public class ResetPasswordController {
 
             // Rediriger vers l'écran de saisie du code
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EnterResetCode.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/EnterResetCode.fxml"));
                 Parent root = loader.load();
 
                 EnterResetCodeController controller = loader.getController();
@@ -80,7 +80,7 @@ public class ResetPasswordController {
     public void handleBackButtonAction() {
         try {
             Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/Authentification.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/utilisateur/Authentification.fxml"))));
         } catch (IOException e) {
             e.printStackTrace();
         }

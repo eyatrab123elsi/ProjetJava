@@ -36,9 +36,9 @@ public class AccueilController {
     @FXML
     public void initialize() {
         // Chargement des images avec vérification des ressources
-        loadImage("/image/image33.png");
-        loadImage("/image/IA (1).png");
-        loadImage("/image/image44.png");
+        loadImage("/utilisateur/image/image33.png");
+        loadImage("/utilisateur/image/IA (1).png");
+        loadImage("/utilisateur/image/image44.png");
 
         // Vérifier si les images sont bien chargées avant de démarrer l'animation
         if (!images.isEmpty()) {

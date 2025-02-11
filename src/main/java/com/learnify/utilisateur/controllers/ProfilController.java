@@ -152,7 +152,7 @@ public class ProfilController {
 
         // Ouvrir la page d'accueil
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Authentification.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/utilisateur/Authentification.fxml"));
             Stage newStage = new Stage();
             newStage.setScene(new Scene(root));
             newStage.show();
