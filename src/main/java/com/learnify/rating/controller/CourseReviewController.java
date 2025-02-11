@@ -64,6 +64,13 @@ public class CourseReviewController {
 
         // Définir une valeur par défaut au slider (par exemple, 3 étoiles)
         ratingSlider.setValue(3);  // Ou vous pouvez définir la valeur initiale selon vos préférences
+
+        // Ajouter des styles personnalisés aux labels du slider
+        if (ratingSlider.lookup(".slider-tick-labels") != null) {
+            ratingSlider.lookup(".slider-tick-labels").setStyle("-fx-font-weight: bold; -fx-text-fill: black;");
+        } else {
+            System.out.println("Slider tick labels not found.");
+        }
     }
 
     @FXML
@@ -127,4 +134,6 @@ public class CourseReviewController {
             e.printStackTrace();
         }
     }
+    
+
 }

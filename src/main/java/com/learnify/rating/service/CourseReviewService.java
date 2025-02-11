@@ -19,7 +19,7 @@ public class CourseReviewService {
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-            stmt.setLong(1, review.getCourseId());  // Ajout du champ course_id
+            stmt.setLong(1, review.getCourseId());
             stmt.setInt(2, review.getRating());
             stmt.setString(3, review.getMessage());
             stmt.setBoolean(4, review.isAnonymous());
@@ -36,14 +36,14 @@ public class CourseReviewService {
     }
 
     // Récupère les avis pour un cours donné
-    public List<CourseReview> getReviewsForCourse(int courseId) {
+    public List<CourseReview> getReviewsForCourse(Long courseId) {
         List<CourseReview> reviews = new ArrayList<>();
         String selectSQL = "SELECT * FROM course_reviews WHERE course_id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(selectSQL)) {
 
-            stmt.setInt(1, courseId);
+            stmt.setLong(1, courseId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -65,25 +65,44 @@ public class CourseReviewService {
         return reviews;
     }
 
-    // Récupère les titres de tous les cours disponibles
-    public List<String> getAllCourses() {
-        List<String> courseTitles = new ArrayList<>();
-        String selectSQL = "SELECT titre FROM courses";
+    // Méthode pour supprimer un avis
+    public boolean deleteReview(Long reviewId) {
+        String deleteSQL = "DELETE FROM course_reviews WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(selectSQL)) {
+             PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
 
-            ResultSet rs = stmt.executeQuery();
+            stmt.setLong(1, reviewId);
 
-            while (rs.next()) {
-                courseTitles.add(rs.getString("titre"));
-            }
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des cours : " + e.getMessage());
+            System.err.println("Erreur lors de la suppression de l'avis : " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
+    }
 
-        return courseTitles;
+    // Méthode pour mettre à jour un avis
+    public boolean updateReview(CourseReview review) {
+        String updateSQL = "UPDATE course_reviews SET rating = ?, message = ?, anonymous = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+
+            stmt.setInt(1, review.getRating());  // Mise à jour de la note
+            stmt.setString(2, review.getMessage());  // Mise à jour du message
+            stmt.setBoolean(3, review.isAnonymous());  // Mise à jour de l'anonymat
+            stmt.setLong(4, review.getId());  // Identification de l'avis à mettre à jour
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour de l'avis : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 }
