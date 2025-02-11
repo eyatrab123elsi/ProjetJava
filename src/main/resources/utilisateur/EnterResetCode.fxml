@@ -3,52 +3,57 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.learnify.utilisateur.controllers.ResetPasswordController"
+            fx:controller="com.learnify.utilisateur.controllers.EnterResetCodeController"
             style="-fx-background-color: linear-gradient(to right, #99c4f6, #bc9cff); -fx-padding: 60;">
+
+    <!-- Icône de retour en haut à gauche -->
+    <ImageView fx:id="backButton"
+               fitWidth="30" fitHeight="30"
+               onMouseClicked="#handleBackToAccueil"
+               style="-fx-cursor: hand;">
+        <Image url="image/back_iconn.png"/>
+    </ImageView>
 
     <!-- Conteneur principal centré -->
     <VBox alignment="CENTER" spacing="20.0" prefWidth="500" prefHeight="500" layoutX="500" layoutY="120">
 
-        <!-- Partie supérieure : Titre -->
+        <!-- Partie supérieure : Message de bienvenue -->
         <VBox alignment="CENTER" spacing="10.0">
-            <Label text="Réinitialiser le mot de passe" style="-fx-font-size: 28px; -fx-text-fill: #ffffff; -fx-font-weight: bold;"/>
-            <Label text="Entrez votre email pour recevoir un lien de réinitialisation."
+            <Label text="Réinitialisation du mot de passe" style="-fx-font-size: 28px; -fx-text-fill: #ffffff; -fx-font-weight: bold;"/>
+            <Label text="Veuillez entrer le code de réinitialisation que vous avez reçu par email."
                    wrapText="true" maxWidth="350"
                    style="-fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-text-alignment: center; -fx-font-weight: bold;"/>
         </VBox>
 
-        <!-- Formulaire de réinitialisation centré -->
+        <!-- Formulaire de saisie du code -->
         <VBox alignment="CENTER" spacing="15.0"
               style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 10;
                      -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);">
 
-            <!-- Champ Email -->
+            <Label text="Code de réinitialisation" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Label text="Entrez le code reçu par email" style="-fx-text-fill: #0c0c0c;"/>
+
+            <!-- Champ Code -->
             <VBox spacing="5.0" alignment="CENTER">
                 <HBox spacing="10.0" alignment="CENTER">
                     <ImageView fitWidth="20" fitHeight="20">
-                        <Image url="@image/email_iconn.png"/>
+                        <Image url="image/code_icon.png"/>
                     </ImageView>
-                    <TextField fx:id="emailField" promptText="Email"
+                    <TextField fx:id="codeField" promptText="Entrez le code reçu"
                                style="-fx-background-radius: 20; -fx-padding: 8; -fx-pref-width: 250px;"/>
                 </HBox>
             </VBox>
 
-            <!-- Bouton Réinitialiser le mot de passe -->
-            <Button fx:id="resetPasswordButton" text="Réinitialiser le mot de passe" onAction="#handleResetPasswordButtonAction"
+            <!-- Bouton Valider -->
+            <Button fx:id="validateCodeButton" onAction="#handleValidateCodeButtonAction" text="Valider le code"
                     style="-fx-background-color: #945fd6; -fx-text-fill: white; -fx-font-size: 14px;
                            -fx-background-radius: 20; -fx-padding: 10; -fx-pref-width: 250px;"/>
 
-            <!-- Message de feedback -->
-            <Text fx:id="feedbackText" style="-fx-fill: #ff0000; -fx-font-size: 12px;" />
-
-            <!-- Bouton Retour à la connexion -->
-            <Button fx:id="backButton" text="Retour à la connexion" onAction="#handleBackButtonAction"
-                    style="-fx-background-color: transparent; -fx-border-color: #8638d6; -fx-text-fill: #000000;
-                           -fx-font-size: 14px; -fx-background-radius: 20; -fx-padding: 10; -fx-pref-width: 250px;"/>
+            <!-- Feedback Text -->
+            <Text fx:id="feedbackText" style="-fx-fill: red; -fx-font-size: 14px;"/>
         </VBox>
     </VBox>
 </AnchorPane>
