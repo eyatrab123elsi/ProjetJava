@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.rating.controller.CourseReviewsDisplayController">
-    <TextArea fx:id="courseDetailsTextArea" editable="false" prefHeight="100" />
-    <ListView fx:id="reviewsListView" prefHeight="200" />
-</VBox>
+<StackPane stylesheets="/rating/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.rating.controller.CourseReviewsDisplayController">
+
+    <!-- Conteneur principal avec VBox centré -->
+    <VBox alignment="CENTER" spacing="20">
+        <Button fx:id="backButton" text="Retour" onAction="#goBackToRatingPage" styleClass="back-button"/>
+
+        <!-- Détails du cours (Titre et Description) -->
+        <StackPane alignment="CENTER">
+            <TextArea fx:id="courseDetailsTextArea" editable="false" prefHeight="120.0" prefWidth="500.0" styleClass="text-area" />
+        </StackPane>
+
+        <!-- Affichage de la note moyenne -->
+        <Label fx:id="averageRatingLabel" styleClass="average-rating-text" />
+
+        <!-- Liste des avis -->
+        <ListView fx:id="reviewsListView" prefHeight="500.0" prefWidth="500.0" styleClass="list-view" />
+
+        <!-- Bouton de retour -->
+
+    </VBox>
+
+</StackPane>

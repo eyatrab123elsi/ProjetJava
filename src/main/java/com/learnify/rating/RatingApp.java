@@ -16,6 +16,7 @@ public class RatingApp extends Application {
 
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/rating/CourseReviewView.fxml"));
+
                 Parent root = loader.load();
 
                 primaryStage.setTitle("Ajouter votre avis!");
