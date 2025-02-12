@@ -71,26 +71,28 @@ public class CoursServiceImpl implements CoursService {
         String query = "SELECT * FROM courses";
 
         try (Connection connection = DatabaseConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                int duree = resultSet.getInt("duree");
-                courses.add(new Cours(
+                Cours cours = new Cours(
                         resultSet.getString("titre"),
                         resultSet.getString("description"),
-                        duree,
+                        resultSet.getInt("duree"),
                         resultSet.getString("pdf_path")
-                ));
+                );
+                cours.setId(resultSet.getLong("course_id"));
+                courses.add(cours);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return courses;
     }
 
     private String savePDFToLocal(File pdfFile) {
-        if (pdfFile == null) return null;
+        if (pdfFile == null) return "Aucun fichier";
 
         File destDir = new File("pdf_lessons");
         if (!destDir.exists()) destDir.mkdirs();
@@ -101,7 +103,7 @@ public class CoursServiceImpl implements CoursService {
             return destFile.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return "Aucun fichier";
         }
     }
 }

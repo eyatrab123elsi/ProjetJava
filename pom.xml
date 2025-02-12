@@ -90,7 +90,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.learnify.utilisateur.UtilisateurApp</mainClass>
+                            <mainClass>com.learnify.cours.CoursApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -109,8 +109,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.learnify.utilisateur.UtilisateurApp</mainClass>
-                    <modulepathMode>true</modulepathMode>
+                    <mainClass>com.learnify.cours.CoursApp</mainClass>
+
                 </configuration>
             </plugin>
 

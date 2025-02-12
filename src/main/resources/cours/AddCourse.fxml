@@ -32,7 +32,7 @@
             <TextField fx:id="descriptionField" alignment="TOP_LEFT" layoutX="143.0" layoutY="301.0" prefHeight="298.0" prefWidth="960.0" promptText="Description du cours" styleClass="input-field" />
 
             <Label layoutX="153.0" layoutY="678.0" text="Fichier PDF : " />
-            <Hyperlink fx:id="pdfLink" layoutX="260.0" layoutY="678.0" onAction="#ouvrirFichierPDF" text="Aucun fichier sélectionné" />
+
             <Button layoutX="510.0" layoutY="673.0" onAction="#choisirFichierPDF" prefHeight="30.0" prefWidth="150.0" text="Choisir PDF" />
             <Button layoutX="143.0" layoutY="800.0" onAction="#ajouterCours" prefHeight="50.0" prefWidth="134.0" styleClass="action-button" text="Ajouter Cours" />
             <Button layoutX="1090.0" layoutY="1580.0" onAction="#supprimerCours" prefHeight="50.0" prefWidth="158.0" styleClass="delete-button" text="Supprimer Cours" />

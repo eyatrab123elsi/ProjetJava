@@ -2,7 +2,6 @@ package com.learnify.cours.controller;
 
 import com.learnify.cours.entities.Cours;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +12,9 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.awt.Desktop;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.*;
 
 public class CoursController {
 
@@ -32,10 +34,9 @@ public class CoursController {
     public void initialize() {
         colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colDuree.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.valueOf(cellData.getValue().getDuree())));
-
+        colDuree.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDuree())));
         colFichier.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPdfPath()));
+
         colFichier.setCellFactory(column -> new TableCell<>() {
             private final Hyperlink link = new Hyperlink();
 
@@ -59,6 +60,36 @@ public class CoursController {
         });
 
         coursTable.setItems(coursList);
+        loadCoursesFromDatabase(); // Load courses when UI starts
+    }
+
+    private void loadCoursesFromDatabase() {
+        String url = "jdbc:mysql://localhost:3306/learnify";
+        String username = "root";
+        String password = "";
+
+        String sql = "SELECT titre, description, duree, fichier FROM cours";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            coursList.clear();
+
+            while (rs.next()) {
+                String titre = rs.getString("titre");
+                String description = rs.getString("description");
+                int duree = rs.getInt("duree");
+                String fichier = rs.getString("fichier");
+
+                Cours cours = new Cours(titre, description, duree, fichier);
+                coursList.add(cours);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger les cours depuis la base de données.", Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -91,23 +122,27 @@ public class CoursController {
         String titre = titreField.getText().trim();
         String description = descriptionField.getText().trim();
         String duree = dureeField.getText().trim();
-        String fichier = (fichierPDF != null) ? fichierPDF.getAbsolutePath() : "Aucun fichier";
+        String fichier = (fichierPDF != null) ? savePDFToLocal(fichierPDF) : "Aucun fichier";
 
         if (titre.isEmpty() || description.isEmpty() || duree.isEmpty()) {
             showAlert("Champs vides", "Veuillez remplir tous les champs.", Alert.AlertType.WARNING);
             return;
         }
 
-        int dureeInt = Integer.parseInt(duree);
-        Cours nouveauCours = new Cours(titre, description, dureeInt, fichier);
-        coursList.add(nouveauCours);
+        try {
+            int dureeInt = Integer.parseInt(duree);
+            Cours nouveauCours = new Cours(titre, description, dureeInt, fichier);
+            saveCoursToDatabase(nouveauCours);
+            loadCoursesFromDatabase(); // Refresh table
+            showAlert("Succès", "Cours ajouté avec succès !", Alert.AlertType.INFORMATION);
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "Durée invalide. Veuillez entrer un nombre.", Alert.AlertType.ERROR);
+        }
 
         titreField.clear();
         descriptionField.clear();
         dureeField.clear();
         fichierPDF = null;
-
-        showAlert("Succès", "Cours ajouté avec succès !", Alert.AlertType.INFORMATION);
     }
 
     @FXML
@@ -115,10 +150,73 @@ public class CoursController {
         Cours selectedCours = coursTable.getSelectionModel().getSelectedItem();
 
         if (selectedCours != null) {
+            deleteCoursFromDatabase(selectedCours);
             coursList.remove(selectedCours);
             showAlert("Suppression", "Le cours a été supprimé.", Alert.AlertType.INFORMATION);
         } else {
             showAlert("Erreur", "Veuillez sélectionner un cours à supprimer.", Alert.AlertType.WARNING);
+        }
+    }
+
+    private void deleteCoursFromDatabase(Cours cours) {
+        String url = "jdbc:mysql://localhost:3306/learnify";
+        String username = "root";
+        String password = "";
+
+        String sql = "DELETE FROM cours WHERE titre = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cours.getTitre());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de supprimer le cours.", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void saveCoursToDatabase(Cours cours) {
+        String url = "jdbc:mysql://localhost:3306/learnify";
+        String username = "root";
+        String password = "";
+
+        String sql = "INSERT INTO cours (titre, description, duree, fichier) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cours.getTitre());
+            stmt.setString(2, cours.getDescription());
+            stmt.setInt(3, cours.getDuree());
+            stmt.setString(4, cours.getPdfPath());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ajouter le cours à la base de données.", Alert.AlertType.ERROR);
+        }
+    }
+
+    private String savePDFToLocal(File pdfFile) {
+        if (pdfFile == null) return "Aucun fichier";
+
+        File destDir = new File("src/main/resources/cours/pdfs");
+
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+
+        File destFile = new File(destDir, pdfFile.getName());
+
+        try {
+            Files.copy(pdfFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return destFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Aucun fichier";
         }
     }
 
@@ -128,8 +226,5 @@ public class CoursController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    public void ouvrirFichierPDF(ActionEvent actionEvent) {
     }
 }

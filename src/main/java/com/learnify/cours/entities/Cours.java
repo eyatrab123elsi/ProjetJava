@@ -84,4 +84,9 @@ public class Cours {
     public StringProperty pdfPathProperty() {
         return pdfPath;
     }
+
+    @Override
+    public String toString() {
+        return getTitre();
+    }
 }
