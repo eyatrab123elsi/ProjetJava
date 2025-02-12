@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.learnify.absence.view.ConsultationAbsenceController"
+            stylesheets="@style.css"
+            styleClass="border-pane">
+
+    <top>
+        <VBox spacing="15" alignment="CENTER">
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Consultation des Absences" styleClass="title"/>
+            </HBox>
+            <HBox spacing="15" alignment="CENTER">
+                <Label text="Classe :"/>
+                <ComboBox fx:id="classeComboBox" promptText="Sélectionnez une classe" styleClass="combo-box"/>
+                <Label text="Date début :"/>
+                <DatePicker fx:id="dateDebutPicker" styleClass="date-picker"/>
+                <Label text="Date fin :"/>
+                <DatePicker fx:id="dateFinPicker" styleClass="date-picker"/>
+                <Button text="Filtrer" onAction="#handleFilterAbsences" styleClass="button"/>
+                <Button text="Réinitialiser" onAction="#handleResetFilters" styleClass="button"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="absenceTable" prefHeight="400" prefWidth="1000" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID Absence" prefWidth="70"/>
+                <TableColumn fx:id="studentNameColumn" text="Étudiant" prefWidth="180"/>
+                <TableColumn fx:id="studentClasseColumn" text="Classe" prefWidth="120"/>
+                <TableColumn fx:id="courseNameColumn" text="Cours" prefWidth="200"/>
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="140"/>
+                <TableColumn fx:id="reasonColumn" text="Raison" prefWidth="220"/>
+                <TableColumn fx:id="actionColumn" text="Actions" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="15" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Ajouter une Absence" onAction="#openAjoutAbsenceView" styleClass="button"/>
+            <Button text="Exporter en Excel" onAction="#handleExportExcel" styleClass="button"/>
+            <Button text="Dashboard" onAction="#openDashboardView" styleClass="button"/>
+        </HBox>
+    </bottom>
+</BorderPane>

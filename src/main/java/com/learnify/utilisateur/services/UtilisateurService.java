@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.learnify.absence.util.DatabaseConnection;
 
 public class UtilisateurService {
 
@@ -259,6 +260,45 @@ public class UtilisateurService {
     // Valider le code de réinitialisation
     public boolean validateResetCode(String email, String code) {
         return resetCodeDatabase.containsKey(email) && resetCodeDatabase.get(email).equals(code);
+    }
+
+    public List<Utilisateur> getStudentsByClass(String classe) {
+        List<Utilisateur> students = new ArrayList<>();
+        String sql = "SELECT id, nom, prenom, role, classe FROM utilisateurs WHERE role = 'Etudiant' AND classe = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, classe);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Utilisateur user = new Utilisateur(
+                            rs.getInt("id"),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
+                            rs.getString("role"),
+                            rs.getString("classe")
+                    );
+                    students.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+
+    public List<String> getDistinctClasses() {
+        List<String> classes = new ArrayList<>();
+        String sql = "SELECT DISTINCT classe FROM utilisateurs WHERE role = 'Etudiant' AND classe IS NOT NULL";
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                classes.add(rs.getString("classe"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return classes;
     }
 
     public boolean resetPassword(String email, String newPassword) {

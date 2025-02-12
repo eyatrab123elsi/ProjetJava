@@ -10,8 +10,7 @@ public class AbsenceApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/absenceInterface/AbsenceManagement.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/absenceInterface/ConsultationAbsenceView.fxml"));
         Parent root = loader.load();
 
         primaryStage.setTitle("Gestion des Absences");

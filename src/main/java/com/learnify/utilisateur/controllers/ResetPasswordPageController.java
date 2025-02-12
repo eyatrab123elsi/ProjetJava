@@ -95,7 +95,7 @@ public class ResetPasswordPageController {
     @FXML
     private void handleBackToAccueil() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Accueil.fxml")); // Chemin corrigé
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Accueil.fxml")); // Chemin corrigé
             StackPane root = loader.load(); // Charger en tant que StackPane
             Scene scene = new Scene(root);
 

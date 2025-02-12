@@ -13,13 +13,13 @@ public class DatabaseConnection {
             ResultSet tables = metaData.getTables(null, null, "absence", new String[]{"TABLE"});
 
             if (!tables.next()) {
-                System.out.println("Absence table not found, creating it...");
+                System.out.println("Table 'absence' non trouvée, création en cours...");
                 createAbsenceTable(connection);
             } else {
-                System.out.println("Absence table found.");
+                System.out.println("Table 'absence' trouvée.");
             }
         } catch (SQLException e) {
-            System.err.println("Error during database table check/creation: " + e.getMessage());
+            System.err.println("Erreur lors de la vérification/création de la table : " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -29,18 +29,18 @@ public class DatabaseConnection {
     }
 
     private static void createAbsenceTable(Connection connection) throws SQLException {
+        // On modifie la contrainte FOREIGN KEY pour référencer utilisateurs(id)
         String createTableSQL = "CREATE TABLE absence (" +
                 "    absence_id INT AUTO_INCREMENT PRIMARY KEY," +
                 "    student_id INT NOT NULL," +
                 "    course_id INT NOT NULL," +
                 "    absence_date DATE NOT NULL," +
                 "    reason VARCHAR(255)," +
-                "    FOREIGN KEY (student_id) REFERENCES students(student_id)," +
-                "    FOREIGN KEY (course_id) REFERENCES courses(course_id)" +
+                "    FOREIGN KEY (student_id) REFERENCES utilisateurs(id)" +
                 ");";
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTableSQL);
-            System.out.println("Absence table created successfully.");
+            System.out.println("Table 'absence' créée avec succès.");
         }
     }
 }

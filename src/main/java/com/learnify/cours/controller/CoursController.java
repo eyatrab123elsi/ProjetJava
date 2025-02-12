@@ -75,11 +75,11 @@ public class CoursController {
     }
 
     private void loadCoursesFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/learnify";
+        String url = "jdbc:mysql://localhost:3306/learning_platform";
         String username = "root";
         String password = "";
 
-        String sql = "SELECT titre, description, duree, fichier FROM cours";
+        String sql = "SELECT titre, description, duree, pdf_path FROM courses";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -91,7 +91,7 @@ public class CoursController {
                 String titre = rs.getString("titre");
                 String description = rs.getString("description");
                 int duree = rs.getInt("duree");
-                String fichier = rs.getString("fichier");
+                String fichier = rs.getString("pdf_path");
 
                 Cours cours = new Cours(titre, description, duree, fichier);
                 coursList.add(cours);
@@ -170,11 +170,11 @@ public class CoursController {
     }
 
     private void deleteCoursFromDatabase(Cours cours) {
-        String url = "jdbc:mysql://localhost:3306/learnify";
+        String url = "jdbc:mysql://localhost:3306/learning_platform";
         String username = "root";
         String password = "";
 
-        String sql = "DELETE FROM cours WHERE titre = ?";
+        String sql = "DELETE FROM courses WHERE titre = ?";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -189,11 +189,11 @@ public class CoursController {
     }
 
     private void saveCoursToDatabase(Cours cours) {
-        String url = "jdbc:mysql://localhost:3306/learnify";
+        String url = "jdbc:mysql://localhost:3306/learning_platform";
         String username = "root";
         String password = "";
 
-        String sql = "INSERT INTO cours (titre, description, duree, fichier) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO courses (titre, description, duree, pdf_path) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {

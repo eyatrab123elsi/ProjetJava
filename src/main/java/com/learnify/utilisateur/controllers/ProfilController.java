@@ -1,43 +1,19 @@
 package com.learnify.utilisateur.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import com.learnify.utilisateur.entities.Utilisateur;
-import com.learnify.utilisateur.services.UtilisateurService;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextFormatter;
+import javafx.stage.Stage;
+import com.learnify.utilisateur.entities.Utilisateur;
+import com.learnify.utilisateur.services.UtilisateurService;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.function.UnaryOperator;
 
 public class ProfilController {
-
-    @FXML
-    private Label nomLabel;
-
-    @FXML
-    private Label prenomLabel;
-
-    @FXML
-    private Label emailLabel;
-
-    @FXML
-    private Label telephoneLabel;
-
-    @FXML
-    private Label adresseLabel;
-
-    @FXML
-    private Label roleLabel;
-
-    @FXML
-    private Label dateNaissanceLabel;
 
     @FXML
     private TextField nomField;
@@ -60,9 +36,6 @@ public class ProfilController {
     @FXML
     private DatePicker dateNaissancePicker;
 
-    @FXML
-    private Button logoutButton;
-
     private Utilisateur utilisateur;
     private UtilisateurService utilisateurService;
 
@@ -75,8 +48,6 @@ public class ProfilController {
         afficherProfil();
         System.out.println("Utilisateur mis à jour : " + utilisateur);
     }
-
-
 
     @FXML
     private void initialize() {
@@ -119,9 +90,6 @@ public class ProfilController {
             return null;
         };
         adresseField.setTextFormatter(new TextFormatter<>(filterAdresse));
-
-        // Connexion du bouton de déconnexion
-        logoutButton.setOnAction(event -> handleLogout());
     }
 
     private void afficherProfil() {
@@ -138,7 +106,6 @@ public class ProfilController {
             }
         }
     }
-
 
     @FXML
     private void updateProfil() {
@@ -159,7 +126,6 @@ public class ProfilController {
 
         // Récupérer l'ancien email
         String ancienEmail = utilisateur.getEmail();
-
         // Mettre à jour l'utilisateur
         utilisateur.setNom(nouveauNom);
         utilisateur.setPrenom(nouveauPrenom);
@@ -191,25 +157,6 @@ public class ProfilController {
 
         // Recharger les informations du profil
         afficherProfil();
-    }
-
-    @FXML
-    private void handleLogout() {
-        System.out.println("Déconnexion réussie !");
-
-        // Fermer la fenêtre actuelle
-        Stage stage = (Stage) logoutButton.getScene().getWindow();
-        stage.close();
-
-        // Ouvrir la page d'accueil
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Authentification.fxml"));
-            Stage newStage = new Stage();
-            newStage.setScene(new Scene(root));
-            newStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     // Méthode pour afficher une alerte d'erreur

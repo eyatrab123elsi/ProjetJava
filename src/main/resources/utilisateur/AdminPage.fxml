@@ -17,7 +17,7 @@
         <graphic>
             <ImageView fx:id="logoutIcon" fitHeight="30" fitWidth="30">
                 <image>
-                    <Image url="@/utilisateur/image/logout-icon.png"/>
+                    <Image url="@/icons/logout-icon.png"/>
                 </image>
             </ImageView>
         </graphic>

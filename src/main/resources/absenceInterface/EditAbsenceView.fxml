@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.learnify.absence.view.EditAbsenceController"
+            stylesheets="@style.css"
+            styleClass="border-pane">
+    <top>
+        <HBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Modifier une Absence" styleClass="title"/>
+        </HBox>
+    </top>
+    <center>
+        <GridPane hgap="15" vgap="15">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Date d'absence :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <DatePicker fx:id="absenceDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="date-picker"/>
+            <Label text="Raison :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="reasonField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field"/>
+        </GridPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Enregistrer" onAction="#handleUpdateAbsence" styleClass="button"/>
+            <Button text="Annuler" onAction="#handleCancel" styleClass="button"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -7,22 +7,50 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-
 <?import javafx.scene.layout.StackPane?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.dashboard.controller.DashboardController" stylesheets="style.css">
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.dashboard_teacher.controller.DashboardController" stylesheets="style.css">
     <children>
-        <!-- Ligne pour l'icône de profil -->
-        <StackPane>
-            <ImageView fx:id="imageView" fitHeight="50" fitWidth="50" style="-fx-background-radius: 50%; -fx-border-color: #17091e; -fx-border-width: 4px;" >
+        <!-- Ligne centrée pour l'icône de profil et autres icônes -->
+        <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+            <!-- Icône de profil -->
+            <ImageView fx:id="imageView" fitHeight="50" fitWidth="50" onMouseClicked="#handleProfilIconClick" style="-fx-background-radius: 50%; -fx-border-color: #17091e; -fx-border-width: 4px;">
                 <image>
-                    <Image url="@/rating/profile-icon.png" /> <!-- Chemin correct pour l'image -->
+                    <Image url="@/rating/profile-icon.png" />
                 </image>
             </ImageView>
-        </StackPane>
+
+            <!-- Icône des cours -->
+            <ImageView fitHeight="50" fitWidth="50" onMouseClicked="#handleCourseIconClick">
+                <image>
+                    <Image url="@/icons/cours-icon.png" />
+                </image>
+            </ImageView>
+
+            <!-- Icône des quiz -->
+            <ImageView fitHeight="50" fitWidth="50" onMouseClicked="#handleQuizIconClick">
+                <image>
+                    <Image url="@/icons/quiz-icon.png" />
+                </image>
+            </ImageView>
+
+            <!-- Icône des absences -->
+            <ImageView fitHeight="50" fitWidth="50" onMouseClicked="#handleAbsenceIconClick">
+                <image>
+                    <Image url="@/icons/absence-icon.png" />
+                </image>
+            </ImageView>
+
+            <!-- Icône des logout -->
+            <ImageView fitHeight="50" fitWidth="50" onMouseClicked="#handleLogoutIconClick">
+                <image>
+                    <Image url="@/icons/logout-icon.png" />
+                </image>
+            </ImageView>
+        </HBox>
 
         <!-- Première ligne : Graphiques des utilisateurs par rôle et des cours par titre -->
         <HBox spacing="20">
-            <!-- Graphique des utilisateurs par rôle -->
             <BarChart fx:id="userBarChart" title="Utilisateurs par Rôle">
                 <xAxis>
                     <CategoryAxis label="Rôle"/>
@@ -32,7 +60,6 @@
                 </yAxis>
             </BarChart>
 
-            <!-- Graphique des cours par titre -->
             <BarChart fx:id="courseBarChart" title="Nombre de Cours par Titre">
                 <xAxis>
                     <CategoryAxis label="Titre du Cours"/>
@@ -45,7 +72,6 @@
 
         <!-- Deuxième ligne : Graphiques des réponses correctes et des absences -->
         <HBox spacing="20">
-            <!-- Graphique des réponses correctes par utilisateur -->
             <BarChart fx:id="correctAnswersBarChart" title="Réponses Correctes par Utilisateur">
                 <xAxis>
                     <CategoryAxis label="Nom de l'utilisateur"/>
@@ -55,7 +81,6 @@
                 </yAxis>
             </BarChart>
 
-            <!-- Graphique des absences par utilisateur -->
             <BarChart fx:id="absenceBarChart" title="Nombre d'Absences par Utilisateur">
                 <xAxis>
                     <CategoryAxis label="Nom de l'utilisateur"/>

@@ -1,4 +1,4 @@
-package com.learnify.dashboard;
+package com.learnify.dashboard_student;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ public class DashboardApp extends Application {
     public void start(Stage primaryStage) {
         try {
             // Charge le fichier FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard/dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard_teacher/dashboard.fxml"));
 
             // Si ton fichier FXML utilise VBox comme conteneur principal
             VBox root = loader.load();
@@ -22,7 +22,7 @@ public class DashboardApp extends Application {
             primaryStage.setScene(scene);
 
             // Titre de la fenêtre
-            primaryStage.setTitle("Dashboard");
+            primaryStage.setTitle("Dashboard Student");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace(); // Affiche les erreurs si le fichier FXML n'est pas trouvé ou si un problème survient

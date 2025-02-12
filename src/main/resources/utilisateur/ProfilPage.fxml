@@ -11,18 +11,6 @@
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.utilisateur.controllers.ProfilController"
             style="-fx-background-color: linear-gradient(to right, #ffffff, #dfb6ff); -fx-padding: 60;">
 
-    <!-- Le bouton Logout est maintenant positionné en haut à droite -->
-    <Button fx:id="logoutButton" onAction="#handleLogout" style="-fx-background-color: transparent;" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10">
-        <graphic>
-            <ImageView fx:id="logoutIcon"   fitHeight="30" fitWidth="30"  >
-
-                <image>
-                    <Image url="@/image/back_iconn.png"/>
-                </image>
-            </ImageView>
-        </graphic>
-    </Button>
-
     <!-- Conteneur principal centré avec fond blanc et bordure en dégradé -->
     <VBox alignment="CENTER" spacing="20.0" prefWidth="500" prefHeight="500" layoutX="500" layoutY="120"
           style="-fx-background-color: white; -fx-border-width: 3px; -fx-border-color: linear-gradient(to right, #77a3ed, #a973f8); -fx-border-radius: 10px; -fx-padding: 20px;">

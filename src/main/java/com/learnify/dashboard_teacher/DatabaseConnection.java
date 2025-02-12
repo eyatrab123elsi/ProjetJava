@@ -1,4 +1,4 @@
-package com.learnify.dashboard;
+package com.learnify.dashboard_teacher;
 
 
 import java.sql.Connection;

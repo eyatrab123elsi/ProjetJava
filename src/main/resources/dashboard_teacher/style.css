@@ -1,0 +1,61 @@
+/* Global background for the VBox */
+.vbox {
+    -fx-background-color: #f5f5f5; /* Light gray background */
+    -fx-padding: 20;
+}
+
+/* Style for HBox containers */
+.hbox {
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+/* BarChart global style */
+.chart {
+    -fx-background-color: transparent;
+    -fx-legend-background: transparent;
+}
+
+/* Chart plot background */
+.chart-plot-background {
+    -fx-background-color: #ffffff; /* White for contrast */
+    -fx-border-color: #ddd; /* Light border */
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+/* Axis styling */
+.axis {
+    -fx-tick-label-fill: #555; /* Darker gray for axis labels */
+    -fx-label-padding: 8;
+}
+
+.axis .axis-label {
+    -fx-text-fill: #333; /* Darker text for axis titles */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Colors for bars */
+.default-color0.chart-bar {
+    -fx-bar-fill: #3f51b5; /* Indigo */
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: #ff9800; /* Orange */
+}
+
+.default-color2.chart-bar {
+    -fx-bar-fill: #e91e63; /* Pink */
+}
+
+.default-color3.chart-bar {
+    -fx-bar-fill: #4caf50; /* Green */
+}
+
+/* Styling for BarChart title */
+.chart-title {
+    -fx-text-fill: #333; /* Dark text for chart titles */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}

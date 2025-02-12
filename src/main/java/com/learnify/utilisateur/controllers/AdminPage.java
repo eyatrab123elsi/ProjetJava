@@ -77,7 +77,7 @@ public class AdminPage {
 
         // Ouvrir la page d'authentification
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Authentification.fxml"));
             Parent root = loader.load();
             Stage newStage = new Stage();
             newStage.setScene(new Scene(root));
@@ -111,9 +111,9 @@ public class AdminPage {
 
             {
                 // Charger les icônes
-                Image editIcon = new Image(getClass().getResourceAsStream("/image/edit11.png"));
-                Image deleteIcon = new Image(getClass().getResourceAsStream("/image/1.png"));
-                Image validateIcon = new Image(getClass().getResourceAsStream("/image/validate1.png"));
+                Image editIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/edit11.png"));
+                Image deleteIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/1.png"));
+                Image validateIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/validate1.png"));
 
                 // Redimensionner les icônes
                 ImageView editView = new ImageView(editIcon);

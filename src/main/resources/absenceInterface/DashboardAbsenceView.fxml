@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.learnify.absence.view.DashboardAbsenceController"
+            stylesheets="@style.css"
+            styleClass="border-pane">
+    <top>
+        <HBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Dashboard des Absences" styleClass="title"/>
+        </HBox>
+    </top>
+    <center>
+        <!-- Remplacer padding="20" par une déclaration de padding en balise -->
+        <VBox spacing="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <!-- Un PieChart pour la répartition par cours -->
+            <PieChart fx:id="pieChart" prefHeight="300" prefWidth="600"/>
+            <!-- Un BarChart pour la répartition par mois -->
+            <BarChart fx:id="barChart" prefHeight="300" prefWidth="600">
+                <xAxis>
+                    <CategoryAxis label="Mois"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Nombre d'absences"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Retour" onAction="#handleRetour" styleClass="button"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -93,7 +93,7 @@ public class InscriptionController {
     @FXML
     private void handleRetourButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Accueil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Accueil.fxml"));
             StackPane root = loader.load(); // Utiliser StackPane ici
             Scene scene = new Scene(root);
 

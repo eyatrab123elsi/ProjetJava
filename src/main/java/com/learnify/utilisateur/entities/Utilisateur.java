@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Utilisateur {
+    private StringProperty classe; 
     private IntegerProperty id;
     private StringProperty nom;
     private StringProperty prenom;
@@ -43,7 +44,18 @@ public class Utilisateur {
         this.role = new SimpleStringProperty(role);
         this.estValide = new SimpleBooleanProperty(estValide); // Initialisation de estValide
     }
-
+    public Utilisateur(int id, String nom, String prenom, String role, String classe) {
+        this.id = new SimpleIntegerProperty(id);
+        this.nom = new SimpleStringProperty(nom);
+        this.prenom = new SimpleStringProperty(prenom);
+        this.role = new SimpleStringProperty(role);
+        this.classe = new SimpleStringProperty(classe);
+        this.email = new SimpleStringProperty("");
+        this.telephone = new SimpleStringProperty("");
+        this.adresse = new SimpleStringProperty("");
+        this.motDePasse = new SimpleStringProperty("");
+        this.dateNaissance = new SimpleObjectProperty<>(null);
+    }
     // Getters
     public int getId() { return id.get(); }
     public String getNom() { return nom.get(); }
@@ -78,6 +90,28 @@ public class Utilisateur {
     public StringProperty roleProperty() { return role; }
     public ObjectProperty<LocalDate> dateNaissanceProperty() { return dateNaissance; }
     public BooleanProperty estValideProperty() { return estValide; } // Property pour estValide
+
+    public String getClasse() {
+        return classe.get();
+    }
+
+    public void setClasse(String classe) {
+        this.classe.set(classe);
+    }
+
+    public StringProperty classeProperty() {
+        return classe;
+    }
+
+    // Méthode pour vérifier si l'utilisateur est un étudiant
+    public boolean isEtudiant() {
+        return "Etudiant".equals(getRole());
+    }
+
+    @Override
+    public String toString() {
+        return nom.get() + " " + prenom.get();
+    }
 
     // Formatage de la date
     public String getFormattedDateNaissance() {

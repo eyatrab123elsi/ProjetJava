@@ -1,5 +1,7 @@
 package com.learnify.utilisateur.controllers;
 
+import com.learnify.dashboard_teacher.controller.DashboardController;
+import com.learnify.dashboard_student.controller.DashboardStudentController;
 import com.learnify.utilisateur.entities.Utilisateur;
 import com.learnify.utilisateur.services.UtilisateurService;
 import javafx.fxml.FXML;
@@ -118,8 +120,10 @@ public class AuthentificationController {
             showAlert("Succès", "Connexion réussie en tant que " + role + " !");
             if (role.equals("Admin")) {
                 redirectToAdminPage();
+            } else if (role.equals("Étudiant")) {
+                redirectToStudentPage();
             } else {
-                redirectToUserPage(role);
+                redirectToTeacherPage();
             }
         }
     }
@@ -138,6 +142,37 @@ public class AuthentificationController {
             e.printStackTrace();
         }
     }
+
+    private void redirectToStudentPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard_student/dashboard.fxml"));
+            Parent root = loader.load();
+            DashboardStudentController controller = loader.getController();
+            controller.setUserEmail(usernameField.getText()); // Pass the user's email
+    
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void redirectToTeacherPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard_teacher/dashboard.fxml"));
+            Parent root = loader.load();
+            DashboardController controller = loader.getController();
+            controller.setUserEmail(usernameField.getText()); // Pass the user's email
+    
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
     // Redirection vers la page de l'utilisateur (étudiant/enseignant)
     private void redirectToUserPage(String role) {
