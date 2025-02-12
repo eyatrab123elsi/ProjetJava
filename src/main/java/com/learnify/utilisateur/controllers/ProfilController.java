@@ -10,9 +10,11 @@ import com.learnify.utilisateur.services.UtilisateurService;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextFormatter;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.function.UnaryOperator;
 
 public class ProfilController {
 
@@ -56,8 +58,11 @@ public class ProfilController {
     private TextField adresseField;
 
     @FXML
-    private DatePicker dateNaissancePicker;  // Déclaration du DatePicker
-    @FXML private Button logoutButton;
+    private DatePicker dateNaissancePicker;
+
+    @FXML
+    private Button logoutButton;
+
     private Utilisateur utilisateur;
     private UtilisateurService utilisateurService;
 
@@ -71,11 +76,49 @@ public class ProfilController {
         System.out.println("Utilisateur mis à jour : " + utilisateur);
     }
 
+
+
     @FXML
     private void initialize() {
-        // Appliquer un TextFormatter pour n'accepter que des chiffres
-        TextFormatter<Integer> formatter = new TextFormatter<>(new IntegerStringConverter());
-        telephoneField.setTextFormatter(formatter);
+        // Appliquer un TextFormatter pour n'accepter que des chiffres dans le champ téléphone
+        UnaryOperator<TextFormatter.Change> filterTelephone = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) { // Seuls les chiffres sont autorisés
+                return change;
+            }
+            return null;
+        };
+        telephoneField.setTextFormatter(new TextFormatter<>(filterTelephone));
+
+        // Appliquer un TextFormatter pour n'accepter que des lettres et des espaces dans le champ nom
+        UnaryOperator<TextFormatter.Change> filterNom = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("[a-zA-Z\\s]*")) { // Seules les lettres et les espaces sont autorisés
+                return change;
+            }
+            return null;
+        };
+        nomField.setTextFormatter(new TextFormatter<>(filterNom));
+
+        // Appliquer un TextFormatter pour n'accepter que des lettres et des espaces dans le champ prénom
+        UnaryOperator<TextFormatter.Change> filterPrenom = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("[a-zA-Z\\s]*")) { // Seules les lettres et les espaces sont autorisés
+                return change;
+            }
+            return null;
+        };
+        prenomField.setTextFormatter(new TextFormatter<>(filterPrenom));
+
+        // Appliquer un TextFormatter pour n'accepter que du texte dans le champ adresse
+        UnaryOperator<TextFormatter.Change> filterAdresse = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("[a-zA-Z\\s,.-]*")) { // Lettres, espaces, virgules, points et tirets autorisés
+                return change;
+            }
+            return null;
+        };
+        adresseField.setTextFormatter(new TextFormatter<>(filterAdresse));
 
         // Connexion du bouton de déconnexion
         logoutButton.setOnAction(event -> handleLogout());
@@ -96,6 +139,7 @@ public class ProfilController {
         }
     }
 
+
     @FXML
     private void updateProfil() {
         // Récupérer les nouvelles valeurs des champs de texte
@@ -106,6 +150,12 @@ public class ProfilController {
         String nouvelleAdresse = adresseField.getText();
         String nouvellerole = roleField.getText();
         LocalDate nouvelleDateNaissance = dateNaissancePicker.getValue();
+
+        // Vérifier si l'email existe déjà
+        if (utilisateurService.emailExiste(nouveauEmail) && !nouveauEmail.equals(utilisateur.getEmail())) {
+            showErrorAlert("Erreur", "Cet email existe déjà. Veuillez en choisir un autre.");
+            return;
+        }
 
         // Récupérer l'ancien email
         String ancienEmail = utilisateur.getEmail();
@@ -142,6 +192,7 @@ public class ProfilController {
         // Recharger les informations du profil
         afficherProfil();
     }
+
     @FXML
     private void handleLogout() {
         System.out.println("Déconnexion réussie !");
@@ -152,12 +203,21 @@ public class ProfilController {
 
         // Ouvrir la page d'accueil
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/utilisateur/Authentification.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/Authentification.fxml"));
             Stage newStage = new Stage();
             newStage.setScene(new Scene(root));
             newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Méthode pour afficher une alerte d'erreur
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

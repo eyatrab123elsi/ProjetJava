@@ -77,7 +77,7 @@ public class AdminPage {
 
         // Ouvrir la page d'authentification
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Authentification.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification.fxml"));
             Parent root = loader.load();
             Stage newStage = new Stage();
             newStage.setScene(new Scene(root));
@@ -111,9 +111,9 @@ public class AdminPage {
 
             {
                 // Charger les icônes
-                Image editIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/edit11.png"));
-                Image deleteIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/1.png"));
-                Image validateIcon = new Image(getClass().getResourceAsStream("/utilisateur/image/validate1.png"));
+                Image editIcon = new Image(getClass().getResourceAsStream("/image/edit11.png"));
+                Image deleteIcon = new Image(getClass().getResourceAsStream("/image/1.png"));
+                Image validateIcon = new Image(getClass().getResourceAsStream("/image/validate1.png"));
 
                 // Redimensionner les icônes
                 ImageView editView = new ImageView(editIcon);
@@ -197,12 +197,14 @@ public class AdminPage {
     private void handleEditUser(Utilisateur user) {
         Dialog<Utilisateur> dialog = createEditUserDialog(user);
         dialog.showAndWait().ifPresent(updatedUser -> {
-            boolean success = utilisateurService.mettreAJourUtilisateur(updatedUser);
-            if (success) {
-                loadUserData(); // Recharger les données après modification
-                showSuccessAlert("Succès", "L'utilisateur a été modifié avec succès !");
-            } else {
-                showErrorAlert("Échec de la mise à jour", "Impossible de mettre à jour l'utilisateur.");
+            if (updatedUser != null) {
+                boolean success = utilisateurService.mettreAJourUtilisateur(updatedUser);
+                if (success) {
+                    loadUserData(); // Recharger les données après modification
+                    showSuccessAlert("Succès", "L'utilisateur a été modifié avec succès !");
+                } else {
+                    showErrorAlert("Échec de la mise à jour", "Impossible de mettre à jour l'utilisateur.");
+                }
             }
         });
     }
@@ -270,8 +272,55 @@ public class AdminPage {
 
         dialog.getDialogPane().setContent(grid);
 
+        // Validation des champs
+        saveButton.setDisable(true);
+
+        // Contrôle de saisie pour le nom, prénom et adresse (doivent être de type texte)
+        nomField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z]*")) {
+                nomField.setText(oldValue);
+            }
+            validateFields(nomField, prenomField, adresseField, telephoneField, emailField, saveButton);
+        });
+
+        prenomField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z]*")) {
+                prenomField.setText(oldValue);
+            }
+            validateFields(nomField, prenomField, adresseField, telephoneField, emailField, saveButton);
+        });
+
+        adresseField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z ]*")) {  // Seules les lettres et les espaces sont autorisés
+                adresseField.setText(oldValue);
+            }
+            validateFields(nomField, prenomField, adresseField, telephoneField, emailField, saveButton);
+        });
+
+        // Contrôle de saisie pour le téléphone (doit être de type numérique)
+        telephoneField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                telephoneField.setText(oldValue);
+            }
+            validateFields(nomField, prenomField, adresseField, telephoneField, emailField, saveButton);
+        });
+
+        // Contrôle de saisie pour l'email (doit contenir @gmail.com)
+        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
+                emailField.setText(oldValue);
+            }
+            validateFields(nomField, prenomField, adresseField, telephoneField, emailField, saveButton);
+        });
+
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
+                // Vérifier si l'email existe déjà dans la base de données
+                if (!user.getEmail().equals(emailField.getText()) && utilisateurService.emailExiste(emailField.getText())) {
+                    showErrorAlert("Erreur", "L'email existe déjà dans la base de données.");
+                    return null;
+                }
+
                 user.setNom(nomField.getText());
                 user.setPrenom(prenomField.getText());
                 user.setEmail(emailField.getText());
@@ -284,6 +333,16 @@ public class AdminPage {
         });
 
         return dialog;
+    }
+
+    private void validateFields(TextField nomField, TextField prenomField, TextField adresseField, TextField telephoneField, TextField emailField, Button saveButton) {
+        boolean isValid = !nomField.getText().isEmpty() &&
+                !prenomField.getText().isEmpty() &&
+                !adresseField.getText().isEmpty() &&
+                !telephoneField.getText().isEmpty() &&
+                emailField.getText().matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$");
+
+        saveButton.setDisable(!isValid);
     }
 
     private void handleDeleteUser(Utilisateur user) {

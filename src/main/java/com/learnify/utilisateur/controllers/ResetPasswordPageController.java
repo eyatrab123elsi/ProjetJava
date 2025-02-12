@@ -44,6 +44,13 @@ public class ResetPasswordPageController {
             return;
         }
 
+        // Valider le mot de passe
+        if (!isPasswordValid(newPassword)) {
+            feedbackText.setText("Le mot de passe doit contenir au moins 12 caractères, " +
+                    "une majuscule, une minuscule, un chiffre et un caractère spécial.");
+            return;
+        }
+
         // Réinitialiser le mot de passe
         UtilisateurService utilisateurService = new UtilisateurService();
         boolean success = utilisateurService.resetPassword(email, newPassword);
@@ -56,11 +63,39 @@ public class ResetPasswordPageController {
         }
     }
 
+    private boolean isPasswordValid(String password) {
+        // Vérifier la longueur du mot de passe
+        if (password.length() < 12) {
+            return false;
+        }
+
+        // Vérifier la présence d'au moins une majuscule
+        if (!password.matches(".*[A-Z].*")) {
+            return false;
+        }
+
+        // Vérifier la présence d'au moins une minuscule
+        if (!password.matches(".*[a-z].*")) {
+            return false;
+        }
+
+        // Vérifier la présence d'au moins un chiffre
+        if (!password.matches(".*\\d.*")) {
+            return false;
+        }
+
+        // Vérifier la présence d'au moins un caractère spécial
+        if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+            return false;
+        }
+
+        return true;
+    }
 
     @FXML
     private void handleBackToAccueil() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utilisateur/Accueil.fxml")); // Chemin corrigé
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Accueil.fxml")); // Chemin corrigé
             StackPane root = loader.load(); // Charger en tant que StackPane
             Scene scene = new Scene(root);
 
