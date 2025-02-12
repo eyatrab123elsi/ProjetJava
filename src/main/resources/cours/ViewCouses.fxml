@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.learnify.cours.controller.CoursController">
+
+    <Label layoutX="102.0" layoutY="22.0" styleClass="title-label" text="Liste des Cours" textFill="#4e26c7">
+        <font>
+            <Font size="36.0" />
+        </font>
+    </Label>
+
+    <VBox layoutX="50.0" layoutY="100.0" spacing="20" />
+
+    <Button fx:id="backButton" layoutX="30.0" layoutY="33.0" onAction="#goBack" styleClass="back-button" text="Back" />
+
+    <Label layoutX="419.0" layoutY="58.0" styleClass="joke-header" text="Une façon sympa de commencer ta journée" textFill="#4e26c7">
+        <font>
+            <Font size="24.0" />
+        </font>
+    </Label>
+
+    <Button fx:id="jokeButton" layoutX="612.0" layoutY="100.0" onAction="#getJokeFromAPI" text="Press Me" />
+
+    <TableView fx:id="coursTable" layoutX="50.0" layoutY="152.0" prefHeight="613.0" prefWidth="1200.0" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="colTitre" prefWidth="300.0" text="Titre" />
+            <TableColumn fx:id="colDescription" prefWidth="500.0" text="Description" />
+            <TableColumn fx:id="colDuree" prefWidth="150.0" text="Durée (min)" />
+            <TableColumn fx:id="colFichier" prefWidth="250.0" text="Fichier PDF" />
+        </columns>
+    </TableView>
+
+    <cursor>
+        <Cursor fx:constant="DEFAULT" />
+    </cursor>
+</AnchorPane>

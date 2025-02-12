@@ -10,19 +10,19 @@ import java.util.Objects;
 
 public class CoursApp extends Application {
 
-    private static String css; // Declare the CSS as static
+    private static String css;
 
     @Override
     public void start(Stage stage) {
         try {
-            // Load the CSS file
+
             css = Objects.requireNonNull(getClass().getResource("/cours/style.css")).toExternalForm();
 
-            // Load the FXML file
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/cours/AddCourse.fxml")));
+
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/cours/RoleSelection.fxml")));
             Scene scene = new Scene(root);
 
-            // Apply the CSS file to the scene
+
             applyCSS(scene);
 
             stage.setTitle("Gestion des Cours");
@@ -34,12 +34,12 @@ public class CoursApp extends Application {
         }
     }
 
-    // Static method to get the CSS path, for reuse in other scenes
+
     public static String getCss() {
         return css;
     }
 
-    // Public method to apply the CSS to any scene
+
     public static void applyCSS(Scene scene) {
         scene.getStylesheets().add(css);
     }

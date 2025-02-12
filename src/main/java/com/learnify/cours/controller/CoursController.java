@@ -6,12 +6,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
 import java.io.File;
 import java.awt.Desktop;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.*;
@@ -26,6 +35,8 @@ public class CoursController {
     private TableColumn<Cours, String> colTitre, colDescription, colDuree;
     @FXML
     private TableColumn<Cours, String> colFichier;
+    @FXML
+    private Button backButton, jokeButton;
 
     private File fichierPDF;
     private final ObservableList<Cours> coursList = FXCollections.observableArrayList();
@@ -220,9 +231,85 @@ public class CoursController {
         }
     }
 
-    private void showAlert(String titre, String message, Alert.AlertType type) {
+    @FXML
+    private void getJokeFromAPI() {
+        try {
+            // Make the request to the Joke API
+            URL url = new URL("https://official-joke-api.appspot.com/random_joke");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                // Manually parse the JSON response
+                String jsonResponse = response.toString();
+
+                // Extract setup and punchline from the JSON response using simple string manipulation
+                String setup = extractJsonValue(jsonResponse, "setup");
+                String punchline = extractJsonValue(jsonResponse, "punchline");
+
+                // Combine and display the joke in a larger area
+                String joke = setup + "\n\n" + punchline;
+
+                // Create a TextArea for the joke content
+                TextArea jokeTextArea = new TextArea(joke);
+                jokeTextArea.setWrapText(true);
+                jokeTextArea.setEditable(false);  // Make it read-only
+                jokeTextArea.setStyle("-fx-font-size: 16px; -fx-padding: 10px;");
+
+                // Create a custom alert with the TextArea
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Random Joke");
+                alert.setHeaderText("Random joke of the day");
+                alert.getDialogPane().setContent(jokeTextArea);  // Add the TextArea as content
+
+                alert.showAndWait();
+            } else {
+                showAlert("Error", "Failed to fetch joke.", Alert.AlertType.ERROR);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "An error occurred while fetching the joke.", Alert.AlertType.ERROR);
+        }
+    }
+
+    // Helper function to extract JSON value by key
+    private String extractJsonValue(String jsonResponse, String key) {
+        String keyValue = "\"" + key + "\":\"";
+        int start = jsonResponse.indexOf(keyValue) + keyValue.length();
+        int end = jsonResponse.indexOf("\"", start);
+        return jsonResponse.substring(start, end);
+    }
+    @FXML
+    public void handleJokeButtonAction(ActionEvent event) {
+        getJokeFromAPI();
+    }
+
+    @FXML
+    public void goBack(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/RoleSelection.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de revenir à la page précédente.", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
-        alert.setTitle(titre);
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

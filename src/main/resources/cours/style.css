@@ -114,3 +114,39 @@
     -fx-spacing: 10px;
     -fx-alignment: center;
 }
+
+.root {
+    -fx-background-color: #f4f4f9;
+}
+
+.title-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4e26c7;
+}
+
+.student-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 10px;
+    -fx-cursor: hand;
+}
+
+.student-button:hover {
+    -fx-background-color: #217dbb;
+}
+
+.teacher-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 10px;
+    -fx-cursor: hand;
+}
+
+.teacher-button:hover {
+    -fx-background-color: #27ae60;
+}
